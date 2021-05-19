@@ -1,0 +1,61 @@
+<div class="p-grid">
+  <div class="p-col">
+    <div class=" p-mt-4 p-shadow-4" style="padding: 10px;" >
+    <p-panel header="Dodawanie postów:" [toggleable]="true" [collapsed]="true">
+      <div class="p-grid p-flex-row">
+        <div class="p-col">
+    <h4>TYTUŁ POSTA</h4>
+    <input [(ngModel)]="postTitle"  [style]="{'width': '500px' , 'height':'45px'}">
+    <h4>TREŚĆ:</h4>
+    <p-editor [(ngModel)]="postText" [style]="{'height':'400px'}"></p-editor>
+    <br>
+    <button pButton type="button" label="Dodaj" (click)="addPost()"  class="p-button-outlined" style = 'margin: 5px;'  icon="pi pi-check"></button>
+    </div>
+    <div class="p-col">
+      <h4>WYBIERZ KATEGORIE</h4>
+  <p-tree [value]="treeNodes" selectionMode="single" [(selection)]="selectedCategory"  (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)" ></p-tree>
+  <br>
+  <hr>
+  <div *ngFor = "let file of filesToSend">
+    <p-chip label= file.postTitle  [removable]="true" (onRemove)= "removeFileToSend(file)"></p-chip>
+  </div>
+  <br>
+  <p-fileUpload name="myfile[]" customUpload="true"  multiple='true' (uploadHandler)="myUploader($event)"></p-fileUpload>
+</div>
+</div>
+</p-panel>
+</div>
+
+
+<div class=" p-mt-4 p-shadow-4" style="padding: 10px;" >
+
+<p-panel header="Dodawanie folderów:" [toggleable]="true" [collapsed]="true">
+  <form [formGroup]="categoryForm">
+    <div class="p-grid p-flex-row">
+      <div class="p-col">
+          <h4>PODAJ NAZWĘ FOLDERU</h4>
+          <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-folder"></i></span>
+          <input type="text" formControlName='name' pInputText placeholder="Nazwa Folderu"  [style]="{'width': '500px' , 'height':'45px'}">
+    </div>
+          <br>
+          <button pButton type="button" label="Dodaj" class="p-button-outlined" style = 'margin: 5px;' (click) = "addCategory()" icon="pi pi-check"></button>
+          <button pButton type="button" label="Usuń" class="p-button-outlined"  style = 'margin: 5px;' (click) = "deleteCategory()" icon="pi pi-trash" ></button>
+  </div>
+      <div class="p-col">
+          <h4>WYBIERZ FOLDER NADRZĘDNY</h4>
+
+          <p-tree [value]="treeNodes" selectionMode="single" [(selection)]="selectedFile"  (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
+
+      </div>
+
+  </div>
+
+    <br>
+
+  </form>
+
+</p-panel>
+</div>
+</div>
+</div>

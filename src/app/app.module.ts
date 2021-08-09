@@ -1,15 +1,14 @@
-import { PostService } from './../services/post.service';
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import {PostService} from './../services/post.service';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule, Routes} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
 
 
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 
 import {MenubarModule} from 'primeng/menubar';
 import {FieldsetModule} from 'primeng/fieldset';
@@ -27,26 +26,26 @@ import {TreeModule} from 'primeng/tree';
 import {CascadeSelectModule} from 'primeng/cascadeselect';
 import {DropdownModule} from 'primeng/dropdown';
 import {FileUploadModule} from 'primeng/fileupload';
-import { ChipModule } from 'primeng/chip';
+import {ChipModule} from 'primeng/chip';
+import {CardModule} from 'primeng/card';
 
 
+import {NavbarComponent} from './navbar/navbar.component';
+import {NewsComponent} from './news/news.component';
+import {MessageService} from 'primeng/api';
+import {AdminPanelComponent} from './admin-panel/admin-panel.component';
+import {SafePipe} from "../pipes/safePipe.pipe";
+import {TieredMenuModule} from "primeng/tieredmenu";
 
-
-
-import { NavbarComponent } from './navbar/navbar.component';
-import { NewsComponent } from './news/news.component';
-import { MessageService } from 'primeng/api';
-import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 
 
 const routes: Routes = [
-  { path: 'news' , component: NewsComponent },
-  { path: 'admin', component : AdminPanelComponent},
+  {path: 'news', component: NewsComponent},
+  {path: 'admin', component: AdminPanelComponent},
 
 
-]
-
+];
 
 
 @NgModule({
@@ -54,7 +53,8 @@ const routes: Routes = [
     AppComponent,
     NavbarComponent,
     NewsComponent,
-    AdminPanelComponent
+    AdminPanelComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
@@ -80,12 +80,14 @@ const routes: Routes = [
     DropdownModule,
     HttpClientModule,
     FileUploadModule,
-    ChipModule
-
-],
+    ChipModule,
+    CardModule,
+    TieredMenuModule
+  ],
 
   exports: [RouterModule],
-  providers: [MessageService , PostService],
+  providers: [MessageService, PostService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

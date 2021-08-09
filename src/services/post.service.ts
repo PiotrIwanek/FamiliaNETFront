@@ -1,30 +1,35 @@
-import { Category } from 'src/models/Category';
-import { Post } from './../models/Post.model';
-import { Injectable } from '@angular/core';
+import {Post} from './../models/Post.model';
+import {Injectable} from '@angular/core';
+
+import {HttpClient} from "@angular/common/http";
+import {PostTO} from "../models/PostTO";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
+  URL = 'http://localhost:8080/v1/post';
 
-  posts: Post [];
-  date = new Date() ;
+  date = new Date();
 
-  constructor() {
-    var cat: Category;
-    this.posts =[];
-    this.posts.push(new Post('TYTUŁ','Coś tam trzeba zrobić kiedyś', this.date ,cat,'alert', []  ));
-}
-
-  getNews() {
-    var news: Post[];
-    news = this.posts;
-    return news;
+  constructor(private http: HttpClient) {
   }
 
-  addPost(newsTitle: string , text : string , cat: Category , priority: string , files: File[] ) {
-    this.date = new Date();
-    this.posts.push(new Post(newsTitle, text, this.date, cat , priority, files ));
+  getAll() {
+    return this.http.get<Post[]>(this.URL);
+  }
+
+  getByCategory(categoryId: number) {
+    return this.http.get<Post[]>(this.URL + '/byCategory/' + categoryId);
+  }
+
+  addPost(post: PostTO) {
+    return this.http.post(this.URL, post);
+  }
+
+  public delete (id : number){
+    return  this.http.delete(this.URL + "/" + encodeURIComponent(id));
   }
 
 

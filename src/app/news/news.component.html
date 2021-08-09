@@ -1,10 +1,24 @@
 <br>
-<div *ngFor = "let x of news" style="margin: 15px;">
-  <p-panel  >
-    <ng-template pTemplate="header"  > {{x.title}} </ng-template>
-    <div style="text-align:right" [ngStyle] = "{ 'color' : x.title === 'alert' ? 'green' : 'red'}  "><b><small>{{x.date | date:'short'}}</small></b></div>
+
+<div style="margin: 15px; align-content: center"><h1>{{title}}</h1></div>
+
+<div *ngFor="let x of news" style="margin: 30px;">
+
+  <p-card [header]="x.name">
+    <div style="text-align:right; margin-bottom: 15px">
+      <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
+      <button #btn style="background: lightgray ; border: lightgray" type="button" pButton icon="pi pi-fw pi-list" (click)="menu.toggle($event); setSelectedPostId(x)"></button>
+    </div>
+    <div style="text-align:right ; color: lightgray">
+      <b><small>{{x.dateTime | date:'short'}}</small></b></div>
     <div [innerHTML]='x.main'></div>
-  </p-panel>
+    <hr>
+    <ng-template pTemplate="footer">
+      <div *ngFor="let file of x.fileDTOList">
+        <a [href]="file.url" [download]="file.name">{{file.name}}</a>
+      </div>
+    </ng-template>
+  </p-card>
 </div>
 
 

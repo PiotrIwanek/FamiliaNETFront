@@ -1,9 +1,14 @@
-import { CategoryService } from './../../services/category.service';
-import { Component, OnInit, OnChanges } from '@angular/core';
-import { MessageService } from 'primeng/api';
+import {CategoryService} from './../../services/category.service';
+import {Component, OnInit} from '@angular/core';
+import {MessageService} from 'primeng/api';
 
-import { Post } from './../../models/Post.model';
+import {Post} from './../../models/Post.model';
+import {Category} from 'src/models/Category';
+import {MenuItem} from 'src/models/MenuItem';
 
+import {DataService} from 'src/services/data.service';
+import {PostService} from "../../services/post.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -12,65 +17,84 @@ import { Post } from './../../models/Post.model';
   styleUrls: ['./navbar.component.css'],
   providers: []
 })
-export class NavbarComponent implements OnInit, OnChanges {
-
+export class NavbarComponent implements OnInit {
 
 
   post: Post;
 
 
   logInDialog: boolean;
-  authorized = true;
+  authorized = false;
   passwordValue: string;
   usernameValue: string;
-  items = [
-    { label: 'Home', icon: 'pi pi-fw pi-home', routerLink: 'news' },
-    { label: 'Admin', icon: 'pi pi-fw pi-cog', routerLink: 'admin', visible: this.authorized , tabindex: '5'}
-    ]
-
+  items: MenuItem[] = [];
+  title: string;
+  postsByCategory: Post [] = [];
+  router: Router;
 
   text: string;
   newsTitle: string;
-  date = new Date() ;
+  categoryTree: Category;
+  menuItemTree: MenuItem;
+  date = new Date();
 
-  constructor(private messageService: MessageService, private catService: CategoryService) {
+  constructor(private messageService: MessageService, private catService: CategoryService, private dataService: DataService , private postService: PostService) {
+
+    this.downloadMenuItemTree();
+
   }
 
   ngOnInit(): void {
 
-
-  this.logInDialog = false;
-
-  this.items.push.apply(this.items , this.catService.tree.toMenuItem());
-  console.log(this.items);
-}
-
-  ngOnChanges(): void {
-
-
-
-}
-
-logIn(): void {
-  if (this.passwordValue == 'test' || this.usernameValue == 'test') {
-    this.authorized = true ;
-    this.logInDialog = false;
-  } else {
-    this.messageService.add({severity:'error', summary:'!!!', detail:'Nieprawidłowy login lub hasło', life: 1750});
-    this.logInDialog = false ;
   }
+
+
+  downloadMenuItemTree(): void {
+
+    this.catService.getAPICategoryTree().subscribe(
+      (data: Category) => {
+        this.categoryTree = new Category(data);
+      },
+      (error) => console.log(error),
+      () => {
+        this.menuItemTree = (this.categoryTree.toMenuItem((event: any) => { this.changeCurrentTitle(event.item.label) ;
+                                                                                      this.changePostByCategory(event.item.categoryId); }));
+        this.items = this.items.concat(this.menuItemTree.items);
+      }
+    );
+
+
+  }
+
+  changeCurrentTitle(title: string) {
+    this.dataService.changeCurrentTitle(title);
+  }
+
+  changePostByCategory (categoryId : number){
+    this.postService.getByCategory(categoryId).subscribe( (data :Post[]) => this.postsByCategory = Post.listFromData(data) ,
+                    error => console.log(error),
+      () => this.dataService.changePosts(this.postsByCategory));
+    console.log(this.postsByCategory);
 }
 
-authorize(): boolean{
-  if(this.authorized === true){
+  logIn(): void {
+    if (this.passwordValue == 'test' || this.usernameValue == 'test') {
+      this.authorized = true;
+      this.logInDialog = false;
+    } else {
+      this.messageService.add({severity: 'error', summary: '!!!', detail: 'Nieprawidłowy login lub hasło', life: 1750});
+      this.logInDialog = false;
+    }
+  }
+
+  authorize(): boolean {
+    if (this.authorized === true) {
       return true;
-    }else {
-    return false
+    } else {
+      return false;
+    }
   }
-}
 
-refresh(){
-  this.ngOnInit();
-}
+
 }
 

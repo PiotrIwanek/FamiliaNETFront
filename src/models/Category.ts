@@ -1,43 +1,92 @@
-import { TreeNode } from './TreeNode';
-import { MenuItem } from "primeng/api";
+import {TreeNode} from './TreeNode';
+import {MenuItem} from './MenuItem';
 
-export abstract class Category {
 
-protected name: string;
+export class Category {
 
-protected parent: Category;
+  public id: number;
 
-protected children: Category[];
+  public name: string;
 
-public add(category: Category): void {}
+  public parentId: number;
 
-public delete(category: Category): void {}
+  public children: Category[];
 
-public setName (name: string) {
-  this.name = name;
+
+  constructor(category?: Category) {
+    this.id = category && category.id || null;
+    this.name = category && category.name || 'Test';
+    this.parentId = category && category.parentId || null;
+    this.children = category && category.children.map(data => {
+      return new Category(data);
+    }) || [];
+  }
+
+
+  public add(categort: Category): void {
+    this.children.push(categort);
+  }
+
+  public delete(categort: Category): void {
+    const categoryIndex = this.children.indexOf(categort);
+    this.children.splice(categoryIndex, 1);
+  }
+
+  public setChildren(composites: Category[]): void {
+    for (let child of composites) {
+      this.children.push(child);
+    }
+  }
+
+
+  public setName(name: string): void {
+    this.name = name;
+  }
+
+  public getName(): string {
+    return this.name;
+  }
+
+  public getCategoryList() {
+    const categoryList: Category [] = [];
+
+
+    for (const child of this.children) {
+      categoryList.push(child);
+      var nestedChild: Category [] = [];
+      nestedChild = child.getCategoryList();
+      categoryList.push.apply(categoryList, nestedChild);
+    }
+
+    return categoryList;
+  }
+
+
+  public print() {
+    const results: string [] = [];
+
+    for (const child of this.children) {
+
+      results.push(`Name:${child.getName()} ` + ' children: ' + child.print());
+    }
+
+    return `[${results.join(' + ')}]`;
+  }
+
+
+  public toNodeTree() {
+    return new TreeNode(this.getName(), this.getName(), 'pi pi-folder-open', 'pi pi-folder-open',
+      this.children, this.id, this);
+  }
+
+
+  public toMenuItem(command: Function) {
+
+    return new MenuItem(this.name, 'pi pi-folder', 'news/', command, this.children ,this.id);
+
+  }
+
 }
 
-public getName () : string {
-  return this.name;
-}
-
-public setParent (parent: Category) {
-  this.parent = parent;
-}
-
-public getParent () {
-  return this.parent;
-}
-
-public getChilds(){
-  return this.children;
-}
 
 
-public abstract print(): string ;
-
-public abstract toNodeTree(): TreeNode[];
-public abstract getCategoryList(): Category[];
-public abstract toMenuItem(): MenuItem[];
-
-}

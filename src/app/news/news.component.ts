@@ -1,6 +1,10 @@
-import { PostService } from './../../services/post.service';
-import { Post } from './../../models/Post.model';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {PostService} from './../../services/post.service';
+import {Post} from './../../models/Post.model';
+import {Component, OnInit} from '@angular/core';
+import {CategoryService} from 'src/services/category.service';
+import {DataService} from 'src/services/data.service';
+import {DomSanitizer} from "@angular/platform-browser";
+import {MenuItem} from "primeng/api";
 
 
 @Component({
@@ -11,19 +15,46 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 export class NewsComponent implements OnInit {
 
+  title: string;
+
+  news: Post[] = [];
+
+  items: MenuItem[];
+
+  selectedPost: Post;
 
 
-  news: Post [];
-  text: string;
-  newsTitle: string;
+  constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
+    , private sanitizer: DomSanitizer) {
+    this.getPost();
 
-
-  constructor(private postService: PostService) { }
+  }
 
   ngOnInit(): void {
-    this.news = this.postService.posts;
+    this.dataService.currentTitle.subscribe(((data) => this.title = data));
+    this.dataService.currentPosts.subscribe((data: Post []) => this.news = Post.listFromData(data));
+    this.items = [
+      {label: 'Delete', icon: 'pi pi-fw pi-trash' , command: () => this.deletePost(this.selectedPost.id)},
+      {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}]
+  }
+
+  getPost() {
+    this.postService.getAll().subscribe((data: Post[]) => this.news = Post.listFromData(data));
+    console.log(this.news);
+  }
+
+  deletePost(id: number) {
+    this.postService.delete(id).subscribe();
+    this.news = this.news.filter( data => data !== this.selectedPost);
+  }
+
+  setSelectedPostId(post : Post){
+    this.selectedPost = post;
 }
 
+  showFrame(file: File) {
+
+  }
 
 
 }

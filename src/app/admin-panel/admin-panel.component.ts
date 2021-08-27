@@ -14,6 +14,7 @@ import {FileDTO} from "../../models/FileDTO";
 import {Post} from "../../models/Post.model";
 import {FileTO} from "../../models/FileTO";
 import {PostTO} from "../../models/PostTO";
+import {error} from "protractor";
 
 enum Prioryty {
   LOW = 'LOW', MEDIUM ='MEDIUM', HIGH = 'HIGH'
@@ -161,11 +162,38 @@ export class AdminPanelComponent implements OnInit {
   }
 
   addPost() {
-    let files : FileTO[] = []
+   try{
+
+     let files : FileTO[] = []
     this.filesToSend.forEach( data => files.push(new FileTO(data.id)))
     let post = new PostTO(this.postTitle, this.postText, new Date() ,this.selectedCategoryForPost.category, this.selectedPrioryty.value, files  ,[])
     console.log(post);
-    this.postService.addPost(post).subscribe(data => console.log(data));
+
+
+     this.postService.addPost(post).subscribe();
+
+    this.message.add({
+       severity: 'success',
+       summary: 'Dodano post',
+       detail: this.postTitle + " Został dodany",
+       life: 1750
+     });
+
+     this.postTitle = '';
+     this.postText = '';
+     this.selectedCategoryForPost = null;
+     this.selectedPrioryty = null;
+
+  } catch ( exeption) {
+
+     this.message.add({
+       severity: 'warn',
+       summary: 'Nie udało się stworzyć postu , sprawdz wypełnione dane',
+       detail:  exeption ,
+       life: 1750
+     });
+
+   }
   }
 
   nodeSelect(event) {

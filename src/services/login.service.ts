@@ -8,8 +8,8 @@ import {environment} from "../environments/environment";
 })
 export class LoginService{
 
-  // URL =  environment.URL + 'login';
-  URL =  "http://10.10.8.253:8090/" + 'login';
+  URL =  environment.URL + 'login';
+  // URL =  "http://10.10.8.253:8090/" + 'login';
 
   constructor(private http : HttpClient) {
   }

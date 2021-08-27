@@ -10,7 +10,8 @@ import {environment} from "../environments/environment";
 })
 export class PostService {
 
-  URL =  environment.URL + 'post';
+  // URL =  environment.URL + 'post';
+  URL =  "http://10.10.8.253:8090/" + 'post';
 
   date = new Date();
 

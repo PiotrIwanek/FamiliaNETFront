@@ -10,7 +10,8 @@ import {environment} from "../environments/environment";
 
 export class UserService {
 
-  URL =  environment.URL + 'user';
+  // URL =  environment.URL + 'user';
+  URL =  "http://10.10.8.253:8090/" + 'user';
 
 constructor(private http : HttpClient) {
 }

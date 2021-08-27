@@ -8,7 +8,8 @@ import {environment} from "../environments/environment";
 })
 export class FileDBService{
 
-  URL =  environment.URL + 'file';
+  // URL =  environment.URL + 'file';
+  URL =  "http://10.10.8.253:8090/" + 'file';
 
   constructor(private  http : HttpClient) {
   }

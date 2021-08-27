@@ -25,7 +25,8 @@ export class CategoryService {
 
 
 
-  categoryURL =  environment.URL + 'category';
+  // categoryURL =  environment.URL + 'category';
+  categoryURL =  "http://10.10.8.253:8090/" + 'category';
 
   constructor(private http: HttpClient) {
   }

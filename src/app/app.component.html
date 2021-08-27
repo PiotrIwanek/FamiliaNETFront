@@ -10,8 +10,9 @@
         <div *ngIf="logIn" class="p-p-1">Uprawnienia : {{user.role}}</div>
         <div *ngIf="logIn" class="p-p-1">Zalogowano : {{date | date : 'short'}}</div>
       </div>
-    <div class = 'p-p-4' *ngIf="!logIn"><button class="p-button" (click)="logInDialog = true">Zaloguj</button></div>
-    <div class = 'p-p-4'*ngIf="logIn"><button class="p-button" (click)="logOut()">Wyloguj</button></div>
+    <div class = 'p-p-2' *ngIf="!logIn"><button class="p-button" (click)="logInDialog = true">Zaloguj</button></div>
+    <div class = 'p-p-2'*ngIf="logIn"><button class="p-button" (click)="logOut()">Wyloguj</button></div>
+    <div class = 'p-p-2' *ngIf="authorized"><button  pButton icon="pi pi-cog" class="icon" [routerLink]="['admin']"></button></div>
     </div>
   </div>
   <app-navbar></app-navbar>

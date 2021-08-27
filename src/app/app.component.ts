@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     if (localStorage.getItem('logOn') === 'true') {
       let userId = localStorage.getItem('userID');
       this.userService.getById(Number(userId)).subscribe(data => this.user = data);

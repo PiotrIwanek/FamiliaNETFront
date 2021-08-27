@@ -1,14 +1,14 @@
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {FileDTO} from "../models/FileDTO";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileDBService{
 
-  URL = 'http://localhost:8080/v1/file';
-
+  URL =  environment.URL + 'file';
 
   constructor(private  http : HttpClient) {
   }

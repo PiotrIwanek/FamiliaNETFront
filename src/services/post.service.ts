@@ -3,13 +3,14 @@ import {Injectable} from '@angular/core';
 
 import {HttpClient} from "@angular/common/http";
 import {PostTO} from "../models/PostTO";
-import {BehaviorSubject} from "rxjs";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
-  URL = 'http://localhost:8080/v1/post';
+
+  URL =  environment.URL + 'post';
 
   date = new Date();
 

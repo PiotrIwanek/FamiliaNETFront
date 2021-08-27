@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  URL: "http://localhost:4200/api/v1/",
+  SpringServerIP: "http://10.10.8.253:8090/"
 };
 
 /*

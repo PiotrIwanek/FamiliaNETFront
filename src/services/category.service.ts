@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
+import {environment} from "../environments/environment";
 
 interface CategoryApi {
 
@@ -22,7 +23,9 @@ export class CategoryService {
 
   testTitle: string;
 
-  categoryURL = 'http://localhost:8080/v1/category';
+
+
+  categoryURL =  environment.URL + 'category';
 
   constructor(private http: HttpClient) {
   }

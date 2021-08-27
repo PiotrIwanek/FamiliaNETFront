@@ -15,6 +15,15 @@ import {Post} from "../../models/Post.model";
 import {FileTO} from "../../models/FileTO";
 import {PostTO} from "../../models/PostTO";
 
+enum Prioryty {
+  LOW = 'LOW', MEDIUM ='MEDIUM', HIGH = 'HIGH'
+}
+
+interface PriorytyInterface{
+  name : string;
+  code : string;
+  value: Prioryty;
+}
 
 @Component({
   selector: 'app-admin-panel',
@@ -37,6 +46,10 @@ export class AdminPanelComponent implements OnInit {
 
   filesToSend: FileDTO [] = [];
 
+  selectedPrioryty: PriorytyInterface;
+
+  priorytyList : PriorytyInterface[];
+
 
 
   public postTitle: string = 'Tytuł';
@@ -52,6 +65,12 @@ export class AdminPanelComponent implements OnInit {
 
     this.downloadCategoryTree();
 
+    this.priorytyList = [
+      { name : 'Niski' , code : 'LOW', value: Prioryty.LOW},
+      { name : 'Średni' , code : 'MEDIUM', value: Prioryty.MEDIUM},
+      { name : 'Wysoki' , code : 'HIGH', value: Prioryty.HIGH}
+    ]
+
   }
 
 
@@ -59,13 +78,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   public test() {
-
-    console.log(this.categoryTree);
-    console.log(this.categoryTree.toNodeTree());
-    console.log(this.treeNode.findElementById(23));
-    console.log(this.selectedCategoryForPost);
-
-
+    console.log(this.selectedPrioryty.value);
   }
 
   downloadCategoryTree(): void {
@@ -150,7 +163,8 @@ export class AdminPanelComponent implements OnInit {
   addPost() {
     let files : FileTO[] = []
     this.filesToSend.forEach( data => files.push(new FileTO(data.id)))
-    let post = new PostTO(this.postTitle, this.postText, new Date() ,this.selectedCategoryForPost.category, 'priority', files  ,[])
+    let post = new PostTO(this.postTitle, this.postText, new Date() ,this.selectedCategoryForPost.category, this.selectedPrioryty.value, files  ,[])
+    console.log(post);
     this.postService.addPost(post).subscribe(data => console.log(data));
   }
 

@@ -1,7 +1,5 @@
-<button pButton type="button" label="TEST" (click)="test()" class="p-button-outlined" style='margin: 5px;'
-        icon="pi pi-check"></button>
 
-
+<!--<button (click)="test()">TEST</button>-->
 <div class="p-grid">
   <div class="p-col">
     <div class=" p-mt-4 p-shadow-4" style="padding: 10px;">
@@ -17,6 +15,8 @@
                     style='margin: 5px;' icon="pi pi-check"></button>
           </div>
           <div class="p-col">
+            <h4>PRIORYTET</h4>
+            <p-listbox [options]="priorytyList" [(ngModel)]="selectedPrioryty" optionLabel="name"></p-listbox>
             <h4>WYBIERZ KATEGORIE</h4>
             <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedCategoryForPost"
                     (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>

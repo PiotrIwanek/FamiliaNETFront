@@ -23,6 +23,8 @@ export class NewsComponent implements OnInit {
 
   selectedPost: Post;
 
+  authorized: boolean;
+
 
   constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
     , private sanitizer: DomSanitizer) {
@@ -33,6 +35,7 @@ export class NewsComponent implements OnInit {
   ngOnInit(): void {
     this.dataService.currentTitle.subscribe(((data) => this.title = data));
     this.dataService.currentPosts.subscribe((data: Post []) => this.news = Post.listFromData(data));
+    this.dataService.currentAuthorized.subscribe( data => this.authorized = data);
     this.items = [
       {label: 'Delete', icon: 'pi pi-fw pi-trash' , command: () => this.deletePost(this.selectedPost.id)},
       {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}]

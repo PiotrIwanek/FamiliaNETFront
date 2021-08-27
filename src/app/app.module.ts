@@ -28,6 +28,10 @@ import {DropdownModule} from 'primeng/dropdown';
 import {FileUploadModule} from 'primeng/fileupload';
 import {ChipModule} from 'primeng/chip';
 import {CardModule} from 'primeng/card';
+import {CheckboxModule} from 'primeng/checkbox';
+import {ListboxModule} from 'primeng/listbox';
+import { TagModule } from 'primeng/tag';
+
 
 
 import {NavbarComponent} from './navbar/navbar.component';
@@ -36,6 +40,9 @@ import {MessageService} from 'primeng/api';
 import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 import {SafePipe} from "../pipes/safePipe.pipe";
 import {TieredMenuModule} from "primeng/tieredmenu";
+import {priorityIconPipe, PriorityPipe} from "../pipes/priority.pipe";
+import {LoginService} from "../services/login.service";
+import {UserService} from "../services/user.service";
 
 
 
@@ -54,7 +61,10 @@ const routes: Routes = [
     NavbarComponent,
     NewsComponent,
     AdminPanelComponent,
-    SafePipe
+    SafePipe,
+    PriorityPipe,
+    PriorityPipe,
+    priorityIconPipe
   ],
   imports: [
     BrowserModule,
@@ -82,11 +92,15 @@ const routes: Routes = [
     FileUploadModule,
     ChipModule,
     CardModule,
-    TieredMenuModule
+    TieredMenuModule,
+    CheckboxModule,
+    ListboxModule,
+    TagModule
+
   ],
 
   exports: [RouterModule],
-  providers: [MessageService, PostService],
+  providers: [MessageService, PostService , LoginService , UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

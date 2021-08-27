@@ -1,17 +1,8 @@
 <p-menubar [model]="items">
-  <button pButton icon="pi pi-user" class="icon" (click)="logInDialog = true"></button>
+
   <button *ngIf=authorized pButton icon="pi pi-cog" class="icon" [routerLink]="['admin']"></button>
 </p-menubar>
 
-<p-dialog [(visible)]="logInDialog" header="Zaloguj" [modal]="true">
-
-  <input [(ngModel)]="usernameValue" type="text" pInputText placeholder="Użytkownik" class="input">
-
-  <input [(ngModel)]="passwordValue" type="password" pInputText placeholder="Hasło" class="input">
-
-  <p-button label="Zaloguj" (click)='logIn()'></p-button>
-
-</p-dialog>
 
 
 

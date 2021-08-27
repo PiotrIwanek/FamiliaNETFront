@@ -17,6 +17,9 @@ export class DataService {
   currentPosts = this.postsSource.asObservable();
 
 
+  private authorizedSource = new BehaviorSubject<boolean>(false) ;
+  currentAuthorized = this.authorizedSource.asObservable();
+
   constructor() {
   }
 
@@ -26,6 +29,10 @@ export class DataService {
 
   changePosts(posts : Post[]) {
     this.postsSource.next(posts);
+  }
+
+  changeAuthorized (isAuthorized: boolean){
+    this.authorizedSource.next(isAuthorized);
   }
 
 

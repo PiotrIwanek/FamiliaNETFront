@@ -23,31 +23,24 @@ export class NavbarComponent implements OnInit {
   post: Post;
 
 
-  logInDialog: boolean;
-  authorized = false;
-  passwordValue: string;
-  usernameValue: string;
   items: MenuItem[] = [];
   title: string;
   postsByCategory: Post [] = [];
   router: Router;
-
+  authorized: boolean
   text: string;
   newsTitle: string;
   categoryTree: Category;
   menuItemTree: MenuItem;
   date = new Date();
 
-  constructor(private messageService: MessageService, private catService: CategoryService, private dataService: DataService , private postService: PostService) {
-
+  constructor(private messageService: MessageService, private catService: CategoryService, private dataService: DataService, private postService: PostService) {
     this.downloadMenuItemTree();
-
   }
 
   ngOnInit(): void {
-
+    this.dataService.currentAuthorized.subscribe(data => this.authorized = data);
   }
-
 
   downloadMenuItemTree(): void {
 
@@ -57,8 +50,10 @@ export class NavbarComponent implements OnInit {
       },
       (error) => console.log(error),
       () => {
-        this.menuItemTree = (this.categoryTree.toMenuItem((event: any) => { this.changeCurrentTitle(event.item.label) ;
-                                                                                      this.changePostByCategory(event.item.categoryId); }));
+        this.menuItemTree = (this.categoryTree.toMenuItem((event: any) => {
+          this.changeCurrentTitle(event.item.label);
+          this.changePostByCategory(event.item.categoryId);
+        }));
         this.items = this.items.concat(this.menuItemTree.items);
       }
     );
@@ -70,29 +65,11 @@ export class NavbarComponent implements OnInit {
     this.dataService.changeCurrentTitle(title);
   }
 
-  changePostByCategory (categoryId : number){
-    this.postService.getByCategory(categoryId).subscribe( (data :Post[]) => this.postsByCategory = Post.listFromData(data) ,
-                    error => console.log(error),
+  changePostByCategory(categoryId: number) {
+    this.postService.getByCategory(categoryId).subscribe((data: Post[]) => this.postsByCategory = Post.listFromData(data),
+      error => console.log(error),
       () => this.dataService.changePosts(this.postsByCategory));
     console.log(this.postsByCategory);
-}
-
-  logIn(): void {
-    if (this.passwordValue == 'test' || this.usernameValue == 'test') {
-      this.authorized = true;
-      this.logInDialog = false;
-    } else {
-      this.messageService.add({severity: 'error', summary: '!!!', detail: 'Nieprawidłowy login lub hasło', life: 1750});
-      this.logInDialog = false;
-    }
-  }
-
-  authorize(): boolean {
-    if (this.authorized === true) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
 

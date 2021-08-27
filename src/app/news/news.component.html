@@ -5,9 +5,16 @@
 <div *ngFor="let x of news" style="margin: 30px;">
 
   <p-card [header]="x.name">
-    <div style="text-align:right; margin-bottom: 15px">
+    <div class="p-d-flex p-jc-end">
+    <div  class="p-m-2" style="text-align:right; margin-bottom: 15px">
+      <p-tag *ngIf="x.priority === 'LOW'" severity="info" icon="pi pi-info-circle">Info </p-tag>
+      <p-tag *ngIf="x.priority === 'MEDIUM'" severity="warning" icon="pi pi-exclamation-triangle">Ważne </p-tag>
+      <p-tag *ngIf="x.priority === 'HIGH'"severity="danger" icon="pi pi-exclamation-triangle">Bardzo Ważne </p-tag>
+    </div>
+    <div  class="p-m-2" *ngIf="authorized" style="text-align:right; margin-bottom: 15px">
       <p-tieredMenu #menu [model]="items" [popup]="true"></p-tieredMenu>
       <button #btn style="background: lightgray ; border: lightgray" type="button" pButton icon="pi pi-fw pi-list" (click)="menu.toggle($event); setSelectedPostId(x)"></button>
+    </div>
     </div>
     <div style="text-align:right ; color: lightgray">
       <b><small>{{x.dateTime | date:'short'}}</small></b></div>

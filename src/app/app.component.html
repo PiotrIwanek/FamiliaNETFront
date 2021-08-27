@@ -1,9 +1,31 @@
 <p-toast></p-toast>
 
 <div class='main'>
-  <div class="logo"><a><img src='../assets/images/logo.png'></a></div>
+
+  <div class = 'p-d-flex p-jc-between'>
+  <div class ="logo"><a><img src='../assets/images/logo.png'></a></div>
+    <div class="p-d-flex p-flex-column">
+      <div>
+        <div *ngIf="logIn" class="p-p-1">Użytkownik : {{user.name}}</div>
+        <div *ngIf="logIn" class="p-p-1">Uprawnienia : {{user.role}}</div>
+        <div *ngIf="logIn" class="p-p-1">Zalogowano : {{date | date : 'short'}}</div>
+      </div>
+    <div class = 'p-p-4' *ngIf="!logIn"><button class="p-button" (click)="logInDialog = true">Zaloguj</button></div>
+    <div class = 'p-p-4'*ngIf="logIn"><button class="p-button" (click)="logOut()">Wyloguj</button></div>
+    </div>
+  </div>
   <app-navbar></app-navbar>
   <br>
   <router-outlet></router-outlet>
 </div>
+
+<p-dialog [(visible)]="logInDialog" header="Zaloguj" [modal]="true" class="dialog">
+
+  <input [(ngModel)]="usernameValue" type="text" pInputText placeholder="Użytkownik" class="input">
+
+  <input [(ngModel)]="passwordValue" type="password" pInputText placeholder="Hasło" class="input">
+
+  <p-button label="Zaloguj" (click)='log()'></p-button>
+
+</p-dialog>
 

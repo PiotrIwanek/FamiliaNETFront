@@ -4,7 +4,7 @@
 
 <div *ngFor="let x of news" style="margin: 30px;">
 
-  <p-panel [toggleable]="true" [collapsed]="true" >
+  <p-panel [toggleable]="true" [collapsed]="true" toggler="header" >
     <ng-template pTemplate="header" >
      {{x.name}}
     </ng-template>
@@ -13,14 +13,12 @@
       <p-tag *ngIf="x.priority === 'MEDIUM'" severity="warning" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Ważne</p-tag>
       <p-tag *ngIf="x.priority === 'HIGH'"severity="danger" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Bardzo Ważne</p-tag>
       <p-chip class="p-mr-3"> {{x.dateTime | date : 'short'}}</p-chip>
-      <button pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event); setSelectedPostId(x)">
+     <button *ngIf="authorized" pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event); setSelectedPostId(x)">
         <span class="pi pi-cog"></span>
       </button>
-      <p-menu #menu id="config_menu" [model]="items" [popup]="true"></p-menu>
+      <p-menu   #menu  id="config_menu" [model]="items" [popup]="true" ></p-menu>
     </ng-template>
 
-    <div style="text-align:right ; color: lightgray">
-      <b><small>{{x.dateTime | date:'short'}}</small></b></div>
     <div [innerHTML]='x.main'></div>
 
     <ng-template pTemplate="footer">

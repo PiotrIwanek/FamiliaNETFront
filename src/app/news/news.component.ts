@@ -1,5 +1,5 @@
-import {PostService} from './../../services/post.service';
-import {Post} from './../../models/Post.model';
+import {PostService} from '../../services/post.service';
+import {Post} from '../../models/Post.model';
 import {Component, OnInit} from '@angular/core';
 import {CategoryService} from 'src/services/category.service';
 import {DataService} from 'src/services/data.service';
@@ -37,8 +37,8 @@ export class NewsComponent implements OnInit {
     this.dataService.currentPosts.subscribe((data: Post []) => this.news = Post.listFromData(data));
     this.dataService.currentAuthorized.subscribe( data => this.authorized = data);
     this.items = [
-      {label: 'Delete', icon: 'pi pi-fw pi-trash' , command: () => this.deletePost(this.selectedPost.id)},
-      {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}]
+      {label: 'Delete', icon: 'pi pi-fw pi-trash' , command: () => this.deletePost(this.selectedPost.id)}
+      ]
   }
 
   getPost() {
@@ -46,7 +46,7 @@ export class NewsComponent implements OnInit {
     console.log(this.news);
   }
 
-  deletePost(id: number) {
+  deletePost(id: string) {
     this.postService.delete(id).subscribe();
     this.news = this.news.filter( data => data !== this.selectedPost);
   }

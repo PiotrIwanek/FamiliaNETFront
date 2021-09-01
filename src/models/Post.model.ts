@@ -1,3 +1,4 @@
+
 import {Category} from 'src/models/Category';
 import {FileDTO} from "./FileDTO";
 
@@ -8,7 +9,7 @@ enum Prioryty {
 
 export class Post {
 
-  public id: number;
+  public id: string;
   public name: string;
   public dateTime: Date;
   public priority: string;
@@ -18,7 +19,7 @@ export class Post {
   public userNames: string [];
 
 
-  constructor(id: number, name: string, main: string, dateTime: Date, category: Category, priority: string, fileDBList: FileDTO [], userNames: string []) {
+  constructor(id: string, name: string, main: string, dateTime: Date, category: Category, priority: string, fileDBList: FileDTO [], userNames: string []) {
     this.id = id;
     this.name = name;
     this.main = main;

@@ -1,12 +1,8 @@
 import {Category} from "./Category";
 import {FileTO} from "./FileTO";
 
-enum Prioryty {
-  LOW = 'LOW', MEDIUM ='MEDIUM', HIGH = 'HIGH'
-}
-
 export class PostTO {
-  private id: number;
+
   private name: string;
   private dateTime: Date;
   private priority: string;
@@ -16,7 +12,7 @@ export class PostTO {
   private userNames: string [];
 
 
-  constructor(name: string, main: string, dateTime: Date, category: Category, priority: string, fileDBList: FileTO [], userNames: string []) {
+  constructor(name: string, main: string, dateTime: Date, category: Category, priority: string, fileDBList: FileTO[], userNames: string[]) {
     this.name = name;
     this.main = main;
     this.dateTime = dateTime;

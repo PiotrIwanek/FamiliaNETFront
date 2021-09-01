@@ -1,8 +1,8 @@
-import {CategoryService} from './../../services/category.service';
+import {CategoryService} from '../../services/category.service';
 import {Component, OnInit} from '@angular/core';
 import {MessageService} from 'primeng/api';
 
-import {Post} from './../../models/Post.model';
+import {Post} from '../../models/Post.model';
 import {Category} from 'src/models/Category';
 import {MenuItem} from 'src/models/MenuItem';
 

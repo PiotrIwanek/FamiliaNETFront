@@ -1,8 +1,13 @@
-export  class FileTO{
 
-  private  id : number
+export class FileTO{
 
-  constructor(id: number) {
+  public id : string;
+
+  constructor(id: string) {
     this.id = id;
+  }
+
+  public static fromData( data ){
+    return new FileTO( data.id);
   }
 }

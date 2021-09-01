@@ -1,4 +1,4 @@
-import {Post} from './../models/Post.model';
+import {Post} from '../models/Post.model';
 import {Injectable} from '@angular/core';
 
 import {HttpClient} from "@angular/common/http";
@@ -27,10 +27,10 @@ export class PostService {
   }
 
   addPost(post: PostTO) {
-    return this.http.post(this.URL, post);
+    return this.http.post<PostTO>(this.URL, post);
   }
 
-  public delete (id : number){
+  public delete (id : string){
     return  this.http.delete(this.URL + "/" + encodeURIComponent(id));
   }
 

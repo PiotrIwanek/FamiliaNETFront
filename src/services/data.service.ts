@@ -10,7 +10,7 @@ import {Post} from "../models/Post.model";
 export class DataService {
 
 
-  private titleSource = new BehaviorSubject<string>("Title");
+  private titleSource = new BehaviorSubject<string>('');
   currentTitle = this.titleSource.asObservable();
 
   private postsSource = new BehaviorSubject<Post[]>([]);

@@ -11,7 +11,7 @@
             <h4>TREŚĆ:</h4>
             <p-editor [(ngModel)]="postText" [style]="{'height':'400px'}"></p-editor>
             <br>
-            <button pButton type="button" label="Dodaj" (click)="addPost()" class="p-button-outlined"
+            <button pButton type="button" label="Dodaj" (click)="sendPost()" class="p-button-outlined"
                     style='margin: 5px;' icon="pi pi-check"></button>
           </div>
           <div class="p-col">
@@ -22,12 +22,12 @@
                     (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
             <br>
             <hr>
-            <div *ngFor="let file of filesToSend">
+            <div *ngFor="let file of uploadFiles">
               <p-chip [removable]="true" (onRemove)="removeFileToSend(file)">{{file.name}}</p-chip>
             </div>
             <br>
             <p-fileUpload name="myfile[]" customUpload="true" multiple='true'
-                          (uploadHandler)="myUploader($event)"></p-fileUpload>
+                          (uploadHandler)="fileUploader($event)"></p-fileUpload>
           </div>
         </div>
       </p-panel>

@@ -2,6 +2,8 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {FileDTO} from "../models/FileDTO";
 import {environment} from "../environments/environment";
+import {FileTO} from "../models/FileTO";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class FileDBService{
 
   public addFile (file : File){
     let body = new FormData();
-    body.append("file",file)
+    body.append("file",file);
    return  this.http.post<FileDTO>(this.URL , body);
   }
 

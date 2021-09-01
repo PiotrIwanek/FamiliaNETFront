@@ -5,24 +5,22 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {MessageService} from 'primeng/api';
 
 
-import {TreeNode} from './../../models/TreeNode';
+import {TreeNode} from 'src/models/TreeNode';
 import {Category} from 'src/models/Category';
-import {CategoryService} from './../../services/category.service';
-import {PostService} from './../../services/post.service';
-import {FileDBService} from "../../services/fileDB.service";
-import {FileDTO} from "../../models/FileDTO";
-import {Post} from "../../models/Post.model";
-import {FileTO} from "../../models/FileTO";
-import {PostTO} from "../../models/PostTO";
-import {error} from "protractor";
+import {CategoryService} from 'src/services/category.service';
+import {PostService} from 'src/services/post.service';
+import {FileDBService} from "src/services/fileDB.service";
+
+import {PostTO} from "src/models/PostTO";
+import {FileDTO} from "src/models/FileDTO";
 
 enum Prioryty {
-  LOW = 'LOW', MEDIUM ='MEDIUM', HIGH = 'HIGH'
+  LOW = 'LOW', MEDIUM = 'MEDIUM', HIGH = 'HIGH'
 }
 
-interface PriorytyInterface{
-  name : string;
-  code : string;
+interface PriorytyInterface {
+  name: string;
+  code: string;
   value: Prioryty;
 }
 
@@ -43,14 +41,13 @@ export class AdminPanelComponent implements OnInit {
 
   selectedCategoryForCategory: TreeNode = null;
 
-  uploadFiles: File [] = [];
+  uploadFiles: File[] = [];
 
-  filesToSend: FileDTO [] = [];
+  filesToSend: File[] = [];
 
   selectedPrioryty: PriorytyInterface;
 
-  priorytyList : PriorytyInterface[];
-
+  priorytyList: PriorytyInterface[];
 
 
   public postTitle: string = 'Tytuł';
@@ -62,24 +59,20 @@ export class AdminPanelComponent implements OnInit {
       name: new FormControl('', [Validators.required, Validators.minLength(3)])
     });
 
-  constructor(private categoryServ: CategoryService, private message: MessageService, private postService: PostService , private fileService : FileDBService) {
+  constructor(private categoryServ: CategoryService, private message: MessageService, private postService: PostService, private fileService: FileDBService) {
 
     this.downloadCategoryTree();
 
     this.priorytyList = [
-      { name : 'Niski' , code : 'LOW', value: Prioryty.LOW},
-      { name : 'Średni' , code : 'MEDIUM', value: Prioryty.MEDIUM},
-      { name : 'Wysoki' , code : 'HIGH', value: Prioryty.HIGH}
+      {name: 'Niski', code: 'LOW', value: Prioryty.LOW},
+      {name: 'Średni', code: 'MEDIUM', value: Prioryty.MEDIUM},
+      {name: 'Wysoki', code: 'HIGH', value: Prioryty.HIGH}
     ]
 
   }
 
 
   ngOnInit(): void {
-  }
-
-  public test() {
-    console.log(this.selectedPrioryty.value);
   }
 
   downloadCategoryTree(): void {
@@ -98,7 +91,7 @@ export class AdminPanelComponent implements OnInit {
 
   addCategory(): void {
     try {
-      var parent = new Category();
+      let parent = new Category();
       if (this.selectedCategoryForCategory === null) {
         this.categoryTree.children.length > 12 ?
           this.message.add({
@@ -161,40 +154,6 @@ export class AdminPanelComponent implements OnInit {
     this.selectedCategoryForCategory = null;
   }
 
-  addPost() {
-   try{
-
-     let files : FileTO[] = []
-    this.filesToSend.forEach( data => files.push(new FileTO(data.id)))
-    let post = new PostTO(this.postTitle, this.postText, new Date() ,this.selectedCategoryForPost.category, this.selectedPrioryty.value, files  ,[])
-    console.log(post);
-
-
-     this.postService.addPost(post).subscribe();
-
-    this.message.add({
-       severity: 'success',
-       summary: 'Dodano post',
-       detail: this.postTitle + " Został dodany",
-       life: 1750
-     });
-
-     this.postTitle = '';
-     this.postText = '';
-     this.selectedCategoryForPost = null;
-     this.selectedPrioryty = null;
-
-  } catch ( exeption) {
-
-     this.message.add({
-       severity: 'warn',
-       summary: 'Nie udało się stworzyć postu , sprawdz wypełnione dane',
-       detail:  exeption ,
-       life: 1750
-     });
-
-   }
-  }
 
   nodeSelect(event) {
     this.message.add({severity: 'info', summary: 'Selected', detail: event.node.label});
@@ -202,19 +161,68 @@ export class AdminPanelComponent implements OnInit {
 
   nodeUnselect(event) {
     this.message.add({severity: 'info', summary: 'Unselected', detail: event.node.label});
-    console.log(this.categoryTree);
   }
 
-  // Do poprawki !!
-  myUploader(event) {
+
+  fileUploader(event) {
     this.uploadFiles = event.files;
-    event.files.forEach(data => this.fileService.addFile(data).subscribe(
-      (data: FileDTO) => this.filesToSend.push(data)))
   }
 
   removeFileToSend(file) {
-    var index = this.filesToSend.indexOf(file, 0);
-    this.filesToSend.splice(index, index);
-    this.fileService.delete(file.id).subscribe();
+    this.uploadFiles = this.uploadFiles.filter( files => files !== file);
+    console.log(this.uploadFiles);
+  }
+
+
+  postPost(files: FileDTO []) {
+    // @ts-ignore
+    return this.postService.addPost(new PostTO(this.postTitle, this.postText, Date, this.selectedCategoryForPost.category,
+      this.selectedPrioryty.value, files, []));
+  }
+
+  clearDataToPost() {
+    this.postTitle = "Tytuł";
+    this.postText = "Tekst";
+    this.uploadFiles = [];
+    this.selectedCategoryForPost = null;
+    this.selectedPrioryty = null;
+  }
+
+  sendPost() {
+    try {
+
+      if (this.uploadFiles.length !== 0) {
+        let files: FileDTO [] = [];
+        console.log(this.uploadFiles);
+        this.uploadFiles.forEach(file => this.fileService.addFile(file).subscribe(response => files.push(response),
+          error => console.log(error),
+          () => this.postPost(files)
+          .subscribe(data => {
+            console.log(data);
+            this.clearDataToPost();
+          })));
+      } else {
+        console.log(this.uploadFiles);
+        this.postPost([]).subscribe(data => {
+          console.log(data);
+          this.clearDataToPost();
+        });
+      }
+      this.message.add({
+        severity: 'success',
+        summary: 'Dodano post',
+        detail: this.postTitle + " Został dodany",
+        life: 1750
+      });
+
+    } catch (e) {
+
+      this.message.add({
+        severity: 'warn',
+        summary: 'Nie udało się stworzyć postu , sprawdz wypełnione dane',
+        detail: e,
+        life: 1750
+      });
+    }
   }
 }

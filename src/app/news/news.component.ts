@@ -5,6 +5,7 @@ import {CategoryService} from 'src/services/category.service';
 import {DataService} from 'src/services/data.service';
 import {DomSanitizer} from "@angular/platform-browser";
 import {MenuItem} from "primeng/api";
+import {FileDBService} from "../../services/fileDB.service";
 
 
 @Component({
@@ -27,7 +28,7 @@ export class NewsComponent implements OnInit {
 
 
   constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
-    , private sanitizer: DomSanitizer) {
+    , private fileService: FileDBService) {
     this.getPost();
 
   }
@@ -37,7 +38,7 @@ export class NewsComponent implements OnInit {
     this.dataService.currentPosts.subscribe((data: Post []) => this.news = Post.listFromData(data));
     this.dataService.currentAuthorized.subscribe( data => this.authorized = data);
     this.items = [
-      {label: 'Delete', icon: 'pi pi-fw pi-trash' , command: () => this.deletePost(this.selectedPost.id)}
+      {label: 'Delete', icon: 'pi pi-fw pi-trash' , command: () => this.deletePost(this.selectedPost)}
       ]
   }
 
@@ -46,8 +47,9 @@ export class NewsComponent implements OnInit {
     console.log(this.news);
   }
 
-  deletePost(id: string) {
-    this.postService.delete(id).subscribe();
+  deletePost(post : Post) {
+    post.fileDTOList.forEach(file => this.fileService.delete(file.id).subscribe());
+    this.postService.delete(post.id).subscribe();
     this.news = this.news.filter( data => data !== this.selectedPost);
   }
 

@@ -43,8 +43,6 @@ export class AdminPanelComponent implements OnInit {
 
   uploadFiles: File[] = [];
 
-  filesToSend: File[] = [];
-
   selectedPrioryty: PriorytyInterface;
 
   priorytyList: PriorytyInterface[];
@@ -169,16 +167,25 @@ export class AdminPanelComponent implements OnInit {
   }
 
   removeFileToSend(file) {
-    this.uploadFiles = this.uploadFiles.filter( files => files !== file);
+    this.uploadFiles = this.uploadFiles.filter(files => files !== file);
     console.log(this.uploadFiles);
   }
 
 
   postPost(files: FileDTO []) {
+
+    if (this.selectedPrioryty === undefined) {
+      this.selectedPrioryty = {
+        name: 'Niski',
+        code: 'LOW',
+        value: Prioryty.LOW
+      }
+    }
     // @ts-ignore
-    return this.postService.addPost(new PostTO(this.postTitle, this.postText, Date, this.selectedCategoryForPost.category,
+    return this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), this.selectedCategoryForPost.category,
       this.selectedPrioryty.value, files, []));
   }
+
 
   clearDataToPost() {
     this.postTitle = "Tytuł";
@@ -202,9 +209,7 @@ export class AdminPanelComponent implements OnInit {
             this.clearDataToPost();
           })));
       } else {
-        console.log(this.uploadFiles);
         this.postPost([]).subscribe(data => {
-          console.log(data);
           this.clearDataToPost();
         });
       }
@@ -219,7 +224,7 @@ export class AdminPanelComponent implements OnInit {
 
       this.message.add({
         severity: 'warn',
-        summary: 'Nie udało się stworzyć postu , sprawdz wypełnione dane',
+        summary: 'Nie udało się stworzyć postu, wybierz kategorie',
         detail: e,
         life: 1750
       });

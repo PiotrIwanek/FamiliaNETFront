@@ -31,11 +31,12 @@ import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ListboxModule} from 'primeng/listbox';
 import { TagModule } from 'primeng/tag';
-
+import {SplitButtonModule} from 'primeng/splitbutton';
+import {PanelMenuModule} from 'primeng/panelmenu';
 
 
 import {NavbarComponent} from './navbar/navbar.component';
-import {NewsComponent} from './news/news.component';
+import {NewsComponent} from './acreditation/news/news.component';
 import {MessageService} from 'primeng/api';
 import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 import {SafePipe} from "../pipes/safePipe.pipe";
@@ -43,14 +44,25 @@ import {TieredMenuModule} from "primeng/tieredmenu";
 import {priorityIconPipe, PriorityPipe} from "../pipes/priority.pipe";
 import {LoginService} from "../services/login.service";
 import {UserService} from "../services/user.service";
+import { HomeComponent } from './home/home.component';
+import { AcreditationComponent } from './acreditation/acreditation.component';
+import { ChartComponent } from './chart/chart.component';
+import { PriceListComponent } from './price-list/price-list.component';
+import {OfficesComponent} from "./offices/offices.component";
 
 
 
 
 const routes: Routes = [
-  {path: 'news', component: NewsComponent},
+  {path: 'home' , component: HomeComponent},
   {path: 'admin', component: AdminPanelComponent},
-
+  {path: 'acreditation' , component: AcreditationComponent, children: [
+      {path: 'news', component: NewsComponent}
+    ]},
+  {path: 'chart' , component: ChartComponent},
+  {path: 'priceList' , component: PriceListComponent},
+  {path: 'offices' , component: OfficesComponent},
+  {path: '**' , redirectTo: 'home' , pathMatch: 'full'}
 
 ];
 
@@ -64,7 +76,11 @@ const routes: Routes = [
     SafePipe,
     PriorityPipe,
     PriorityPipe,
-    priorityIconPipe
+    priorityIconPipe,
+    HomeComponent,
+    AcreditationComponent,
+    ChartComponent,
+    PriceListComponent
   ],
   imports: [
     BrowserModule,
@@ -95,8 +111,9 @@ const routes: Routes = [
     TieredMenuModule,
     CheckboxModule,
     ListboxModule,
-    TagModule
-
+    TagModule,
+    SplitButtonModule,
+    PanelMenuModule
   ],
 
   exports: [RouterModule],

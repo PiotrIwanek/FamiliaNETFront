@@ -4,11 +4,13 @@ import {MessageService} from 'primeng/api';
 
 import {Post} from '../../models/Post.model';
 import {Category} from 'src/models/Category';
-import {MenuItem} from 'src/models/MenuItem';
+import {MenuItem} from 'primeng/api';
 
 import {DataService} from 'src/services/data.service';
 import {PostService} from "../../services/post.service";
 import {Router} from "@angular/router";
+import {User} from "../../models/User";
+import {UserService} from "../../services/user.service";
 
 
 @Component({
@@ -22,56 +24,66 @@ export class NavbarComponent implements OnInit {
 
   post: Post;
 
-
-  items: MenuItem[] = [];
+  items: MenuItem[];
   title: string;
-  postsByCategory: Post [] = [];
-  router: Router;
   authorized: boolean
   text: string;
   newsTitle: string;
-  categoryTree: Category;
-  menuItemTree: MenuItem;
   date = new Date();
+  logIn: boolean;
+  logInDialog: boolean;
+  user: User = User.prototype;
+  dropDownItems: MenuItem[];
 
-  constructor(private messageService: MessageService, private catService: CategoryService, private dataService: DataService, private postService: PostService) {
-    this.downloadMenuItemTree();
+
+  constructor(private messageService: MessageService, private catService: CategoryService, private dataService: DataService,
+              private postService: PostService, private router: Router , private userService: UserService) {
   }
 
   ngOnInit(): void {
-    this.dataService.currentAuthorized.subscribe(data => this.authorized = data);
-  }
 
-  downloadMenuItemTree(): void {
-
-    this.catService.getAPICategoryTree().subscribe(
-      (data: Category) => {
-        this.categoryTree = new Category(data);
-      },
-      (error) => console.log(error),
-      () => {
-        this.menuItemTree = (this.categoryTree.toMenuItem((event: any) => {
-          this.changeCurrentTitle(event.item.label);
-          this.changePostByCategory(event.item.categoryId);
-        }));
-        this.items = this.items.concat(this.menuItemTree.items);
+    if (localStorage.getItem('logOn') === 'true') {
+      let userId = localStorage.getItem('userID');
+      this.userService.getById(Number(userId)).subscribe(data => this.user = data);
+      this.dataService.changeCurrentLogIn(true);
+      if(localStorage.getItem('authorized') === 'true') {
+        this.dataService.changeAuthorized(true);
       }
-    );
+    }
 
-
+    this.dataService.currentLogIn.subscribe( data => this.logIn = data);
+    this.dataService.currentLogInDialog.subscribe( data => this.logInDialog = data);
+    this.dataService.currentAuthorized.subscribe(data => this.authorized = data);
+    this.items = [
+      {label: 'Home' , icon: ' pi pi-home' , routerLink: 'home'},
+      {label: 'Grafik' , icon: ' pi pi-calendar' , routerLink: 'chart'},
+      {label: 'Cennik' , icon: ' pi pi-dollar' , routerLink: 'priceList'},
+      {label: 'Gabinety' , icon: ' pi pi-key' , routerLink: 'offices'},
+      {label: 'Akredytacja' , icon: 'pi pi-book' , routerLink: 'acreditation' }
+    ];
+    this.dropDownItems = [
+      {label: 'Wyloguj' , icon: 'pi pi-logOut' , routerLink: 'home',  command: event => this.logOut()}
+    ]
   }
 
-  changeCurrentTitle(title: string) {
-    this.dataService.changeCurrentTitle(title);
+  changeCurrentLogInDialog (logInDialog : boolean){
+    this.dataService.changeCurrentLogInDialog(logInDialog);
   }
 
-  changePostByCategory(categoryId: number) {
-    this.postService.getByCategory(categoryId).subscribe((data: Post[]) => this.postsByCategory = Post.listFromData(data),
-      error => console.log(error),
-      () => this.dataService.changePosts(this.postsByCategory));
-    console.log(this.postsByCategory);
+  changeCurrentLogIn ( logIn: boolean){
+    this.dataService.changeCurrentLogIn(logIn);
   }
 
+  log(){
+    this.changeCurrentLogInDialog(true);
+  }
+
+  logOut(){
+    localStorage.clear();
+    this.changeCurrentLogIn(false);
+    this.dataService.changeAuthorized(false);
+    this.router.navigateByUrl('/home');
+  }
 
 }
 

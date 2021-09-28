@@ -182,8 +182,8 @@ export class AdminPanelComponent implements OnInit {
       }
     }
     // @ts-ignore
-    return this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), this.selectedCategoryForPost.category,
-      this.selectedPrioryty.value, files, []));
+    return this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), new Date(), false , this.selectedCategoryForPost.category,
+      this.selectedPrioryty.value, files, [] , []));
   }
 
 

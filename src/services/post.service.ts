@@ -30,6 +30,10 @@ export class PostService {
     return this.http.post<PostTO>(this.URL, post);
   }
 
+  updatePost ( post : Post){
+    return this.http.post<Post>(this.URL , post);
+  }
+
   public delete (id : string){
     return  this.http.delete(this.URL + "/" + encodeURIComponent(id));
   }

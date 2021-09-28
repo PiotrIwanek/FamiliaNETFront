@@ -14,9 +14,9 @@ export class LoginService{
   constructor(private http : HttpClient) {
   }
 
-  logIn( name : string , password : string){
+  logIn( login : string , password : string){
     let param = new HttpParams()
-    .set('name', name)
+    .set('login', login)
     .set('password',password);
 
     return this.http.post(this.URL , param );

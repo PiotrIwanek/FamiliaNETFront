@@ -18,7 +18,7 @@ constructor(private http : HttpClient) {
 
   public getAll (){
   return this.http.get(this.URL).pipe(
-    map( function (data: User[]) { data.map( data => new User(data.id ,data.name ,data.password ,data.role)) } )
+    map( function (data: User[]) { data.map( data => new User(data.id ,data.name ,data.surename , data.login ,data.password ,data.role)) } )
   )
   }
 

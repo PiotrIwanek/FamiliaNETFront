@@ -8,6 +8,7 @@ import {FileDBService} from "../../../services/fileDB.service";
 import {Category} from "../../../models/Category";
 import {TreeNode} from "../../../models/TreeNode";
 import {FileDTO} from "../../../models/FileDTO";
+import {FileUpload} from "primeng/fileupload";
 
 
 enum Prioryty {
@@ -46,8 +47,11 @@ export class NewsComponent implements OnInit {
     // new Post( '', '', ' ', new Date(), new Date(), false ,  Category.prototype , 'LOW' ,[] ,[] , []);
 
   authorized: boolean;
-
+  isFileDelete: boolean;
   isPostEdit: boolean;
+
+  fileIdToDelete: string;
+  postIdToDeleteFile:string;
 
   priorytyList: PriorytyInterface [];
   selectedPrioryty: PriorytyInterface;
@@ -59,6 +63,8 @@ export class NewsComponent implements OnInit {
   isFileListEdit: boolean;
   fileToUpload : File[];
   listOfPostFiles : Array<any>;
+
+  uploader : FileUpload;
 
 
   constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
@@ -73,7 +79,7 @@ export class NewsComponent implements OnInit {
       {name: 'Średni', code: 'MEDIUM', value: Prioryty.MEDIUM},
       {name: 'Wysoki', code: 'HIGH', value: Prioryty.HIGH}
     ]
-
+    this.isFileDelete = false;
     this.isFileListEdit = false;
 
   }
@@ -165,5 +171,45 @@ export class NewsComponent implements OnInit {
     this.selectedPost.priority = this.selectedPrioryty.value;
   }
 
+  preDeletingFile(postId : string , fileId : string){
+    this.isFileDelete = true;
+    this.postIdToDeleteFile = postId;
+    this.fileIdToDelete = fileId;
+  }
+
+  cancelDeletingFile(){
+    this.isFileDelete = false;
+    this.postIdToDeleteFile = null;
+    this.fileIdToDelete = null;
+  }
+
+  deleteFile(){
+    this.postService.deleteFromPost(this.postIdToDeleteFile , this.fileIdToDelete).subscribe();
+    var post  = this.news.find( post => post.id === this.postIdToDeleteFile);
+    post.fileDBList = post.fileDBList.filter( file => file.id !== this.fileIdToDelete);
+    this.isFileDelete = false;
+    this.message.add({
+      severity: 'warn',
+      summary: 'Usunięto plik',
+      life: 1750
+    });
+
+  }
+
+  uploadFile(event , postId: string , fileUpload){
+    var post = this.news.find( post => post.id === postId);
+    event.files.forEach( data => this.fileService.addFile(data)
+            .subscribe( response =>{
+              this.postService.attachToPost(postId , response.id)
+              .subscribe(); post.fileDBList.push(response)}))
+    fileUpload.clear();
+    this.message.add({
+      severity: 'success',
+      summary: 'Dodano plik',
+      detail: "Plik został dodany",
+      life: 1750
+    })
+
+  }
 
 }

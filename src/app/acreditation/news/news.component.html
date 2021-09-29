@@ -2,18 +2,18 @@
 
 <div style="margin: 15px; align-content: center"><h1>{{title}}</h1></div>
 
-<div *ngFor="let x of news" style="margin: 30px;">
+<div *ngFor="let x of news" style="margin: 15px;">
 
   <p-panel [toggleable]="true" [collapsed]="true" toggler="header" >
     <ng-template pTemplate="header" class = "xyz" >
      {{x.name}}
     </ng-template>
     <ng-template pTemplate="icons">
-      <p-tag *ngIf="x.priority === 'LOW'" severity="info" icon="pi pi-info-circle p-ml-1" class="p-mr-2">Info</p-tag>
-      <p-tag *ngIf="x.priority === 'MEDIUM'" severity="warning" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Ważne</p-tag>
-      <p-tag *ngIf="x.priority === 'HIGH'"severity="danger" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Bardzo Ważne</p-tag>
-      <p-chip class="p-mr-3"> {{x.dateTime | date : 'short'}}</p-chip>
-     <button *ngIf="authorized" pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event); setSelectedPostId(x)">
+<!--      <p-tag *ngIf="x.priority === 'LOW'" severity="info" icon="pi pi-info-circle p-ml-1" class="p-mr-2">Info</p-tag>-->
+<!--      <p-tag *ngIf="x.priority === 'MEDIUM'" severity="warning" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Ważne</p-tag>-->
+<!--      <p-tag *ngIf="x.priority === 'HIGH'"severity="danger" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Bardzo Ważne</p-tag>-->
+<!--      <p-chip class="p-mr-3"> {{x.dateTime | date : 'short'}}</p-chip>-->
+      <button *ngIf="authorized" pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event); setSelectedPostId(x)">
         <span class="pi pi-cog"></span>
       </button>
       <p-menu   #menu  id="config_menu" [model]="items" [popup]="true" ></p-menu>
@@ -21,9 +21,15 @@
 
     <div [innerHTML]='x.main' ></div>
 
-    <ng-template pTemplate="footer">
+    <ng-template pTemplate="footer" >
+      <div class="p-d-flex p-p-3">
       <div *ngFor="let file of x.fileDBList">
         <a [href]="file.url" [download]="file.name">{{file.name}}</a>
+        <button *ngIf="authorized" pButton class="p-button-rounded p-button-danger p-m-1" icon="pi pi-times-circle" style="height: 25px; width:25px;" (click)="preDeletingFile(x.id , file.id)"></button>
+
+      </div>
+        <p-fileUpload #fileUpload mode="basic" class="p-ml-auto" customUpload = "true" (uploadHandler)="uploadFile($event , x.id , fileUpload)"></p-fileUpload>
+
       </div>
     </ng-template>
   </p-panel>
@@ -46,17 +52,23 @@
       <h4>WYBIERZ KATEGORIE</h4>
       <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedPost.category"
               (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
-      <br>
-      <hr>
-      <div *ngFor="let file of selectedPost.fileDBList">
-        <p-chip [removable]="true" (onRemove)="(removeFileToSend(file))">{{file.name}}</p-chip>
-      </div>
+<!--      <br>-->
+<!--      <hr>-->
+<!--      <div *ngFor="let file of selectedPost.fileDBList">-->
+<!--        <p-chip [removable]="true" (onRemove)="(removeFileToSend(file))">{{file.name}}</p-chip>-->
+<!--      </div>-->
 <!--      <br>-->
 <!--      <p-fileUpload name="myfile[]" customUpload="true" multiple='true'-->
 <!--                    (uploadHandler)="fileUploader($event)"></p-fileUpload>-->
     </div>
   </div>
 </p-dialog>
+
+  <p-dialog [(visible)]="isFileDelete" header="Usuń plik" [modal]="true" class="dialog">
+    <p> Czy na pewno chcesz usunąć plik ?</p>
+    <button pButton class="p-button-success p-button-rounded" (click)="deleteFile()"> TAK </button>
+    <button pButton class="p-button-warning p-button-rounded" (click)="cancelDeletingFile()"> ANULUJ </button>
+  </p-dialog>
 
 </div>
 

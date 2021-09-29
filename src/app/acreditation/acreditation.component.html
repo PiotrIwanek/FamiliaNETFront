@@ -1,7 +1,11 @@
 
-<div class ='p-d-flex'>
-  <p-panelMenu [model]="items" [style]="{'width':'300px'}"></p-panelMenu>
-<div class="p-p-2">
-  <router-outlet></router-outlet>
-</div>
+
+
+<div class="p-grid">
+  <div class="p-col-fixed" style="width:250px">
+    <p-panelMenu [model]="items" [style]="{'width':'200px'}"></p-panelMenu>
+  </div>
+  <div class="p-col p-m-2">
+    <router-outlet></router-outlet>
+  </div>
 </div>

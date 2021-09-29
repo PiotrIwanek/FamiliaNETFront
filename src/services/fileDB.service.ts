@@ -29,20 +29,4 @@ export class FileDBService {
     return this.http.delete(this.URL + "/" + encodeURIComponent(id));
   }
 
-  public attachToPost(postId: number, fileId: string) {
-    let param = new HttpParams()
-    .set('fileId', fileId)
-    .set('postId', postId.toString());
-
-    return this.http.patch(this.URL + "/addFile", param);
-  }
-
-  public deleteFromPost(postId: number, fileId: string) {
-    let param = new HttpParams()
-    .set('fileId', fileId)
-    .set('postId', postId.toString());
-
-    return this.http.patch(this.URL + "/deleteFile", param);
-  }
-
 }

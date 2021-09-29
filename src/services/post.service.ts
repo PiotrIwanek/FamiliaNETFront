@@ -1,7 +1,7 @@
 import {Post} from '../models/Post.model';
 import {Injectable} from '@angular/core';
 
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {PostTO} from "../models/PostTO";
 import {environment} from "../environments/environment";
 
@@ -37,6 +37,21 @@ export class PostService {
   public delete (id : string){
     return  this.http.delete(this.URL + "/" + encodeURIComponent(id));
   }
+
+  public attachToPost(postId: string, fileId: string) {
+    let param = new HttpParams()
+    .set('fileId', fileId);
+
+    return this.http.put(this.URL + "/addFile/" + encodeURIComponent(postId), param);
+  }
+
+  public deleteFromPost(postId: string, fileId: string) {
+    let param = new HttpParams()
+    .set('fileId', fileId);
+
+    return this.http.put(this.URL + "/deleteFile/" +encodeURIComponent(postId), param);
+  }
+
 
 
 }

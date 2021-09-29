@@ -1,0 +1,26 @@
+<p-panel header="Edycja folderów:">
+  <form [formGroup]="categoryForm">
+    <div class="p-grid p-flex-row">
+      <div class="p-col">
+        <h4>PODAJ NAZWĘ FOLDERU</h4>
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon"><i class="pi pi-folder"></i></span>
+          <input type="text" formControlName='name' pInputText placeholder="Nazwa Folderu"
+                 [style]="{'width': '500px' , 'height':'45px'}">
+        </div>
+        <br>
+        <button pButton type="button" label="Dodaj" class="p-button-outlined" style='margin: 5px;'
+                (click)="addCategory()" icon="pi pi-check"></button>
+        <button pButton type="button" label="Usuń" class="p-button-outlined" style='margin: 5px;'
+                (click)="deleteCategory()" icon="pi pi-trash"></button>
+      </div>
+      <div class="p-col">
+        <h4>WYBIERZ FOLDER NADRZĘDNY</h4>
+
+        <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedCategoryForCategory"
+                (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
+      </div>
+    </div>
+  </form>
+</p-panel>
+

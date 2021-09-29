@@ -1,72 +1,10 @@
-
-<!--<button (click)="test()">TEST</button>-->
 <div class="p-grid">
-  <div class="p-col">
-    <div class=" p-mt-4 p-shadow-4" style="padding: 10px;">
-      <p-panel header="Dodawanie postów:" [toggleable]="true" [collapsed]="true" #panelPostow>
-        <div class="p-grid p-flex-row">
-          <div class="p-col">
-            <h4>TYTUŁ POSTA</h4>
-            <input [(ngModel)]="postTitle" [style]="{'width': '500px' , 'height':'45px'}">
-            <h4>TREŚĆ:</h4>
-            <p-editor [(ngModel)]="postText" [style]="{'height':'400px'}"></p-editor>
-            <br>
-            <button pButton type="button" label="Dodaj" (click)="sendPost()" class="p-button-outlined"
-                    style='margin: 5px;' icon="pi pi-check"></button>
-          </div>
-          <div class="p-col">
-            <h4>PRIORYTET</h4>
-            <p-listbox [options]="priorytyList" [(ngModel)]="selectedPrioryty" optionLabel="name"></p-listbox>
-            <h4>WYBIERZ KATEGORIE</h4>
-            <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedCategoryForPost"
-                    (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
-            <br>
-            <hr>
-            <div *ngFor="let file of uploadFiles">
-              <p-chip [removable]="true" (onRemove)="removeFileToSend(file)">{{file.name}}</p-chip>
-            </div>
-            <br>
-            <p-fileUpload name="myfile[]" customUpload="true" multiple='true'
-                          (uploadHandler)="fileUploader($event)"></p-fileUpload>
-          </div>
-        </div>
-      </p-panel>
-    </div>
-
-
-    <div class=" p-mt-4 p-shadow-4" style="padding: 10px;">
-
-      <p-panel header="Dodawanie folderów:" [toggleable]="true" [collapsed]="true">
-        <form [formGroup]="categoryForm">
-          <div class="p-grid p-flex-row">
-            <div class="p-col">
-              <h4>PODAJ NAZWĘ FOLDERU</h4>
-              <div class="p-inputgroup">
-                <span class="p-inputgroup-addon"><i class="pi pi-folder"></i></span>
-                <input type="text" formControlName='name' pInputText placeholder="Nazwa Folderu"
-                       [style]="{'width': '500px' , 'height':'45px'}">
-              </div>
-              <br>
-              <button pButton type="button" label="Dodaj" class="p-button-outlined" style='margin: 5px;'
-                      (click)="addCategory()" icon="pi pi-check"></button>
-              <button pButton type="button" label="Usuń" class="p-button-outlined" style='margin: 5px;'
-                      (click)="deleteCategory()" icon="pi pi-trash"></button>
-            </div>
-            <div class="p-col">
-              <h4>WYBIERZ FOLDER NADRZĘDNY</h4>
-
-              <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedCategoryForCategory"
-                      (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
-
-            </div>
-
-          </div>
-
-          <br>
-
-        </form>
-
-      </p-panel>
-    </div>
+  <div class="p-col-fixed" style="width:250px">
+    <p-panelMenu [model]="items" [style]="{'width':'200px'}"></p-panelMenu>
+  </div>
+  <div class="p-col p-m-2">
+    <router-outlet></router-outlet>
   </div>
 </div>
+
+

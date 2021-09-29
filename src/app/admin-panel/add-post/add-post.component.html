@@ -1,0 +1,35 @@
+<p-panel header="Dodawanie postów:" [toggleable]="true" [collapsed]="false" #panelPostow>
+  <div class="p-grid p-flex-row">
+    <div class="p-col">
+      <h4>TYTUŁ POSTA</h4>
+      <input [(ngModel)]="postTitle" [style]="{'width': '500px' , 'height':'45px'}">
+      <h4>TREŚĆ:</h4>
+      <p-editor [(ngModel)]="postText" [style]="{'height':'400px'}"></p-editor>
+      <br>
+      <button pButton type="button" label="Dodaj" title="Dodaj post" (click)="sendPost()" class="p-button-outlined"
+              style='margin: 5px;' icon="pi pi-check"></button>
+    </div>
+    <div class="p-col">
+      <h4>PRIORYTET</h4>
+      <p-listbox [options]="priorytyList" [(ngModel)]="selectedPrioryty" optionLabel="name"></p-listbox>
+      <div class="p-d-flex p-jc-between p-ac-center">
+       <div> <h4>WYBIERZ KATEGORIE</h4></div>
+        <div class="p-mt-4"><button title="Dodaj Kategorie" pButton class="p-button-rounded p-ml-auto" icon="pi pi-pencil" style="height: 25px; width: 25px;" (click)="isCategoriesEdit = true"></button></div>
+      </div>
+      <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedCategoryForPost"
+              (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
+      <br>
+      <hr>
+      <div *ngFor="let file of uploadFiles">
+        <p-chip [removable]="true" (onRemove)="removeFileToSend(file)">{{file.name}}</p-chip>
+      </div>
+      <br>
+      <p-fileUpload name="myfile[]" customUpload="true" multiple='true'
+                    (uploadHandler)="fileUploader($event)"></p-fileUpload>
+    </div>
+  </div>
+</p-panel>
+
+<p-dialog [(visible)]="isCategoriesEdit"  [modal]="true" class="dialog">
+  <app-add-category></app-add-category>
+</p-dialog>

@@ -31,11 +31,11 @@ interface  uploadedFiles {
 
 @Component({
   selector: 'app-news',
-  templateUrl: './news.component.html',
-  styleUrls: ['./news.component.css']
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.css']
 })
 
-export class NewsComponent implements OnInit {
+export class PostComponent implements OnInit {
 
   title: string;
 
@@ -44,7 +44,7 @@ export class NewsComponent implements OnInit {
   items: MenuItem[];
 
   selectedPost: Post = Post.prototype;
-    // new Post( '', '', ' ', new Date(), new Date(), false ,  Category.prototype , 'LOW' ,[] ,[] , []);
+    // new post( '', '', ' ', new Date(), new Date(), false ,  Category.prototype , 'LOW' ,[] ,[] , []);
 
   authorized: boolean;
   isFileDelete: boolean;

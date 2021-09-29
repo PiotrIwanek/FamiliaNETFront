@@ -22,13 +22,13 @@
     <div [innerHTML]='x.main' ></div>
 
     <ng-template pTemplate="footer" >
-      <div class="p-d-flex p-p-3">
-      <div *ngFor="let file of x.fileDBList">
-        <a [href]="file.url" [download]="file.name">{{file.name}}</a>
+      <h4>Załączniki</h4>
+      <div class="p-d-flex p-flex-column p-p-3">
+      <div *ngFor="let file of x.fileDBList" >
+        <a [href]="file.url" [download]="file.name" class="p-mr-2">{{file.name}}</a>
         <button *ngIf="authorized" pButton class="p-button-rounded p-button-danger p-m-1" icon="pi pi-times-circle" style="height: 25px; width:25px;" (click)="preDeletingFile(x.id , file.id)"></button>
-
       </div>
-        <p-fileUpload #fileUpload mode="basic" class="p-ml-auto" customUpload = "true" (uploadHandler)="uploadFile($event , x.id , fileUpload)"></p-fileUpload>
+        <p-fileUpload *ngIf="authorized" #fileUpload mode="basic" class="p-ml-auto" customUpload = "true" (uploadHandler)="uploadFile($event , x.id , fileUpload)"></p-fileUpload>
 
       </div>
     </ng-template>
@@ -47,19 +47,11 @@
               style='margin: 5px;' icon="pi pi-check"></button>
     </div>
     <div class="p-col">
-      <h4>PRIORYTET</h4>
+      <h4>ZMIEN PRIORYTET</h4>
       <p-listbox [options]="priorytyList" [(ngModel)]="selectedPrioryty"  (click)="setPriority()"  optionLabel="name"></p-listbox>
-      <h4>WYBIERZ KATEGORIE</h4>
+      <h4>ZMIEN KATEGORIE</h4>
       <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedPost.category"
               (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
-<!--      <br>-->
-<!--      <hr>-->
-<!--      <div *ngFor="let file of selectedPost.fileDBList">-->
-<!--        <p-chip [removable]="true" (onRemove)="(removeFileToSend(file))">{{file.name}}</p-chip>-->
-<!--      </div>-->
-<!--      <br>-->
-<!--      <p-fileUpload name="myfile[]" customUpload="true" multiple='true'-->
-<!--                    (uploadHandler)="fileUploader($event)"></p-fileUpload>-->
     </div>
   </div>
 </p-dialog>

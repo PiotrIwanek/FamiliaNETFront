@@ -36,7 +36,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 
 
 import {NavbarComponent} from './navbar/navbar.component';
-import {NewsComponent} from './acreditation/news/news.component';
+import {PostComponent} from './acreditation/post/post.component';
 import {MessageService} from 'primeng/api';
 import {AdminPanelComponent} from './admin-panel/admin-panel.component';
 import {SafePipe} from "../pipes/safePipe.pipe";
@@ -49,19 +49,30 @@ import { AcreditationComponent } from './acreditation/acreditation.component';
 import { ChartComponent } from './chart/chart.component';
 import { PriceListComponent } from './price-list/price-list.component';
 import {OfficesComponent} from "./offices/offices.component";
+import { AddPostComponent } from './admin-panel/add-post/add-post.component';
+import { AddCategoryComponent } from './admin-panel/add-category/add-category.component';
+import { AddUserComponent } from './admin-panel/add-user/add-user.component';
+import { AddChartFileComponent } from './admin-panel/add-chart-file/add-chart-file.component';
+import { ErrorNotFoundComponent } from './error-not-found/error-not-found.component';
 
 
 
 
 const routes: Routes = [
   {path: 'home' , component: HomeComponent},
-  {path: 'admin', component: AdminPanelComponent},
+  {path: 'admin', component: AdminPanelComponent , children: [
+      {path: 'addUser', component: AddUserComponent},
+      {path: 'addPost', component: AddPostComponent},
+      {path: 'addCategory', component: AddCategoryComponent},
+      {path: 'addChartFile', component: AddChartFileComponent}
+    ]},
   {path: 'acreditation' , component: AcreditationComponent, children: [
-      {path: 'news', component: NewsComponent}
+      {path: 'post', component: PostComponent}
     ]},
   {path: 'chart' , component: ChartComponent},
   {path: 'priceList' , component: PriceListComponent},
   {path: 'offices' , component: OfficesComponent},
+  {path: 'error' , component: ErrorNotFoundComponent},
   {path: '**' , redirectTo: 'home' , pathMatch: 'full'}
 
 ];
@@ -71,7 +82,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     NavbarComponent,
-    NewsComponent,
+    PostComponent,
     AdminPanelComponent,
     SafePipe,
     PriorityPipe,
@@ -80,7 +91,12 @@ const routes: Routes = [
     HomeComponent,
     AcreditationComponent,
     ChartComponent,
-    PriceListComponent
+    PriceListComponent,
+    AddPostComponent,
+    AddCategoryComponent,
+    AddUserComponent,
+    AddChartFileComponent,
+    ErrorNotFoundComponent
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {FileDTO} from "../../models/FileDTO";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'app-chart',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChartComponent implements OnInit {
 
-  constructor() { }
+  file: FileDTO;
+
+  constructor(private dataService : DataService) { }
 
   ngOnInit(): void {
+  this.dataService.currentChartFile.subscribe( data => this.file = data);
+
   }
+
+  log(){
+    console.log(this.file);
+  }
+
 
 }

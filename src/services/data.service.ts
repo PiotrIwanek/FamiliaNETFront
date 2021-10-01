@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Post} from "../models/Post.model";
+import {FileDTO} from "../models/FileDTO";
 
 
 
@@ -25,7 +26,15 @@ export class DataService {
   private authorizedSource = new BehaviorSubject<boolean>(false) ;
   currentAuthorized = this.authorizedSource.asObservable();
 
+  private chartFileSource = new BehaviorSubject<FileDTO>(new FileDTO({id: '' , name : '' ,
+                                                                  url: 'http://localhost:4200/error', type :' ', size : 3}));
+  currentChartFile = this.chartFileSource.asObservable();
+
   constructor() {
+  }
+
+  changeCurrentChartFile ( chartFile : FileDTO){
+    this.chartFileSource.next(chartFile);
   }
 
   changeCurrentLogIn (logIn : boolean){

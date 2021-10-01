@@ -32,7 +32,7 @@ export class CategoryService {
   }
 
   public getAPICategoryTree(): Observable<Category> {
-    return this.http.get<Category>(this.categoryURL + '/tree');
+    return this.http.get<Category>(this.categoryURL + '/acreditationCategoryTree');
   }
 
   public createCategory(newName: string, _parent: Category): Observable<Category> {

@@ -25,6 +25,17 @@ export class FileDBService {
     return this.http.post<FileDTO>(this.URL, body);
   }
 
+  public addChartFile(file: File) {
+    let body = new FormData();
+    body.append("file", file);
+    return this.http.post<FileDTO>(this.URL + "/addChartFile" , body);
+  }
+
+  public getChartFile(){
+    return this.http.get<FileDTO>(this.URL + "/getChartFile");
+  }
+
+
   public delete(id: string) {
     return this.http.delete(this.URL + "/" + encodeURIComponent(id));
   }

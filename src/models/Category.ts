@@ -82,7 +82,7 @@ export class Category {
 
   public toMenuItem(command: Function) {
 
-    return new MenuItem(this.name, 'pi pi-folder', 'news/', command, this.children ,this.id);
+    return new MenuItem(this.name, 'pi pi-folder', 'post/', command, this.children ,this.id);
 
   }
 

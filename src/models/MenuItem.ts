@@ -24,6 +24,6 @@ export class MenuItem {
 
   fromCategory(category: Category, command: Function) {
 
-    return new MenuItem(category.name, 'pi pi-folder', 'news/', command, category.children , category.id);
+    return new MenuItem(category.name, 'pi pi-folder', 'post/', command, category.children , category.id);
   }
 }

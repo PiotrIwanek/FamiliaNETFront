@@ -70,8 +70,6 @@ export class PostComponent implements OnInit {
   constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
     , private fileService: FileDBService, private message: MessageService) {
 
-    this.getPost();
-
     this.downloadCategoryTree();
 
     this.priorytyList = [
@@ -85,6 +83,7 @@ export class PostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.dataService.currentTitle.subscribe(((data) => this.title = data));
     this.dataService.currentPosts.subscribe((data: Post []) => this.news = data);
     this.dataService.currentAuthorized.subscribe(data => this.authorized = data);

@@ -18,12 +18,13 @@ export class AddChartFileComponent implements OnInit {
   constructor(private fileService : FileDBService , private dataService : DataService) { }
 
   ngOnInit(): void {
+    this.fileService.getChartFile().subscribe( data => this.dataService.changeCurrentChartFile(data))
     this.dataService.currentChartFile.subscribe(data => this.chartFile = data);
   }
 
 
   uploadFile(event , uploader : FileUpload){
-    event.files.forEach( data => this.fileService.addFile(data)
+    event.files.forEach( data => this.fileService.addChartFile(data)
     .subscribe( response =>{this.chartFile = response; this.dataService.changeCurrentChartFile(response)}));
     uploader.clear();
   }

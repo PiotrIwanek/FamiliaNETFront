@@ -11,7 +11,7 @@
     <ng-template pTemplate="caption">
       <div class="p-d-flex">
         <span class="p-input-icon-left p-ml-auto">
-          <input pInputText type="text" (input)="priceRecordTable.filterGlobal($event.target.value, 'contains')" placeholder="Szukaj ..." />
+          <input pInputText type="text" class = 'p-inputtext' (input)="priceRecordTable.filterGlobal($event.target.value, 'contains')" placeholder="Szukaj ..." />
                 </span>
       </div>
     </ng-template>
@@ -20,10 +20,10 @@
         <th *ngIf="authorized" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th pSortableColumn="name">Nazwa<p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="name" style="width: 20%">Nazwa<p-sortIcon field="name"></p-sortIcon></th>
         <th>Opis</th>
         <th style="width: 8rem">Cena</th>
-        <th *ngIf="authorized" style="width: 8rem"></th>
+        <th *ngIf="authorized" style="width: 10%"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-record>

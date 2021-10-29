@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {PostService} from "../../services/post.service";
+import {Post} from "../../models/Post.model";
 
 @Component({
   selector: 'app-home',
@@ -11,11 +13,13 @@ export class HomeComponent implements OnInit {
   webSrc = 'assets/images/Webz_szary.png';
   znanySrc  = 'assets/images/Znany%20lekarz_szary.png';
   trelloSrc = 'assets/images/Trelo_szary.png'
+  news: Post[];
 
-
-  constructor(private router:  Router) { }
+  constructor(private router:  Router , private postService : PostService) { }
 
   ngOnInit(): void {
+
+    this.postService.getNews().subscribe(data => this.news = data);
   }
 
   goToLink(url: string){

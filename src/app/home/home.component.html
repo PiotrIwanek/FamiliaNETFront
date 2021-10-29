@@ -1,25 +1,34 @@
 <div class="p-d-flex p-flex-row p-jc-between main ">
-  <div class="p-m-2 p-d-flex p-flex-column p-jc-between">
-    <div class="p-m-2">
+  <div class=" p-d-flex p-flex-column p-jc-between p-ac-between left_panel">
+    <div >
       <div class="grey_title">Trello</div>
       <div class="grey_icon" (click)="goToLink('https://trello.com/')"><img class="logo-img" [src]="trelloSrc" (mouseover)="trelloSrc = 'assets/images/Trelo_kolor.png'" (mouseout)="trelloSrc = 'assets/images/Trelo_szary.png'"></div>
     </div>
-    <div class="p-m-2">
+    <div >
       <div class="grey_title">Familiamed.pl</div>
       <div class="grey_icon" (click)="goToLink('https://familiamed.pl/')"><img class="logo-img"  [src]="webSrc"
                                                                                (mouseout) = " webSrc = 'assets/images/Webz_szary.png' " (mouseover)="webSrc = 'assets/images/Web_kolor.png'" ></div>
     </div>
-    <div class="p-m-2">
+    <div >
       <div class="grey_title">ZananyLekarz.pl</div>
       <div class="grey_icon" (click)="goToLink('https://l.znanylekarz.pl/')"><img class="logo-img" [src]="znanySrc"  (mouseover)="znanySrc = 'assets/images/Znany%20lekarz_kolor.png' " (mouseout)="znanySrc = 'assets/images/Znany%20lekarz_szary.png'"></div>
     </div>
   </div>
-  <div class=" p-m-1">
+  <div >
     <div class="grey_title">Kalendarz</div>
     <div class="grey_calendar"></div>
   </div>
-  <div class=" p-m-1">
+  <div>
     <div class="grey_title">Aktualności</div>
-    <div class="grey_board"></div>
+    <div class="grey_board" >
+      <div class="p-d-flex p-flex-column news_panel" *ngFor="let x of news">
+        <div class=" p-d-flex p-flex-row  p-jc-between">
+        <div class="p-ml-2 title">  {{x.name}} </div>
+         <div class="p-mr-2" > {{x.dateTime | date : 'HH:mm dd/MM/YYYY '}}  </div>
+        </div>
+        <hr>
+        <div  class="p-ml-2" [innerHTML]='x.main' ></div>
+      </div>
+    </div>
   </div>
 </div>

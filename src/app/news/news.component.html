@@ -1,8 +1,8 @@
 <div class="p-d-flex p-flex-column ">
-  <div class="p-d-flex p-flex-row">
-  <button icon="pi pi-sort-numeric-down" class="p-button p-button-text p-button-secondary" (click)="dscSort()">Najnowsze</button>
-  <button icon="pi pi-sort-numeric-up-alt" class="p-button p-button-text p-button-secondary" (click)="ascSort()">Najstarsze</button>
-<button pButton *ngIf="authorized" icon="pi pi-plus" class="p-button-rounded p-button-success right-button"  (click)="openCreationDialog()"></button>
+  <div class="p-d-flex p-flex-row right">
+  <button icon="pi pi-sort-numeric-down" class="p-button p-button-text p-button-secondary " (click)="dscSort()">Najnowsze</button>
+  <button icon="pi pi-sort-numeric-up-alt" class="p-button p-button-text p-button-secondary " (click)="ascSort()">Najstarsze</button>
+<button pButton *ngIf="authorized" icon="pi pi-plus" class="p-button-rounded p-button-success p-ml-4 p-mr-2"  (click)="openCreationDialog()"></button>
   </div>
   <hr>
 <div *ngFor="let x of news" style="margin: 15px;">
@@ -15,7 +15,7 @@
       <!--      <p-tag *ngIf="x.priority === 'LOW'" severity="info" icon="pi pi-info-circle p-ml-1" class="p-mr-2">Info</p-tag>-->
       <!--      <p-tag *ngIf="x.priority === 'MEDIUM'" severity="warning" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Ważne</p-tag>-->
       <!--      <p-tag *ngIf="x.priority === 'HIGH'"severity="danger" icon="pi pi-exclamation-triangle p-ml-1" class="p-mr-2">Bardzo Ważne</p-tag>-->
-            <p-chip class="p-mr-3"> {{x.dateTime | date : 'short'}}</p-chip>
+            <p-chip class="p-mr-3"> {{x.dateTime | date : 'HH:mm dd/MM/YYYY '}}</p-chip>
       <button *ngIf="authorized" pButton class="p-panel-header-icon p-link" (click)="menu.toggle($event); setSelectedPostId(x)">
         <span class="pi pi-cog"></span>
       </button>

@@ -26,8 +26,16 @@ export class PostService {
     return this.http.get<Post[]>(this.URL + '/byCategory/' + categoryId);
   }
 
+  getNews(){
+    return this.http.get<Post[]>(this.URL + '/news');
+  }
+
   addPost(post: PostTO) {
-    return this.http.post<PostTO>(this.URL, post);
+    return this.http.post<Post>(this.URL, post);
+  }
+
+  addNews(post: PostTO){
+    return this.http.post<Post>(this.URL + '/news' , post);
   }
 
   updatePost ( post : Post){

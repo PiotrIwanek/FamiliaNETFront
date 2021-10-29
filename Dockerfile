@@ -1,5 +1,5 @@
 FROM node:14.16.0-alpine
-WORKDIR /Users/funof/Repositories/Angular/Familiamed/FamiliaNET
+WORKDIR ./FamiliaNETFront
 COPY package.json .
 RUN npm install
 COPY . .

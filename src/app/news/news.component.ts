@@ -1,15 +1,15 @@
-import {PostService} from '../../../services/post.service';
-import {Post} from '../../../models/Post.model';
 import {Component, OnInit} from '@angular/core';
-import {CategoryService} from 'src/services/category.service';
-import {DataService} from 'src/services/data.service';
-import {MenuItem, MessageService} from "primeng/api";
-import {FileDBService} from "../../../services/fileDB.service";
-import {Category} from "../../../models/Category";
-import {TreeNode} from "../../../models/TreeNode";
-import {FileDTO} from "../../../models/FileDTO";
+import {Post} from "../../models/Post.model";
+import {PostService} from "../../services/post.service";
+import {TreeNode} from "../../models/TreeNode";
+import {Category} from "../../models/Category";
 import {FileUpload} from "primeng/fileupload";
-
+import {DataService} from "../../services/data.service";
+import {FileDTO} from "../../models/FileDTO";
+import {CategoryService} from "../../services/category.service";
+import {FileDBService} from "../../services/fileDB.service";
+import {MenuItem, MessageService} from "primeng/api";
+import {PostTO} from "../../models/PostTO";
 
 enum Prioryty {
   LOW = 'LOW', MEDIUM = 'MEDIUM', HIGH = 'HIGH'
@@ -22,41 +22,36 @@ interface PriorytyInterface {
 }
 
 
-interface  uploadedFiles {
-
-  id: string;
-  isUploaded: boolean;
-
-}
 
 @Component({
   selector: 'app-news',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  templateUrl: './news.component.html',
+  styleUrls: ['./news.component.css']
 })
+export class NewsComponent implements OnInit {
 
-export class PostComponent implements OnInit {
+  news: Post[];
+  postText: string = 'Treść';
 
-  title: string;
+  postTitle: string = 'Tytuł';
 
-  news: Post[] = [];
+  selectedPost: Post = Post.prototype;
 
   items: MenuItem[];
 
-  selectedPost: Post = Post.prototype;
-    // new post( '', '', ' ', new Date(), new Date(), false ,  Category.prototype , 'LOW' ,[] ,[] , []);
-
   authorized: boolean;
   isFileDelete: boolean;
+  isPostCreated: boolean;
   isPostEdit: boolean;
+
+  selectedPrioryty;
+  unityList : any[];
+  selectedUnits;
+  selectedCategoryForPost;
+  treeNode: TreeNode = TreeNode.prototype;
 
   fileIdToDelete: string;
   postIdToDeleteFile:string;
-
-  priorytyList: PriorytyInterface [];
-  selectedPrioryty: PriorytyInterface;
-  selectedCategoryForPost;
-  treeNode: TreeNode = TreeNode.prototype;
 
   categoryTree: Category = Category.prototype;
 
@@ -66,39 +61,28 @@ export class PostComponent implements OnInit {
 
   uploader : FileUpload;
 
+  uploadFiles: File[] = [];
+
 
   constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
     , private fileService: FileDBService, private message: MessageService) {
-
-    this.downloadCategoryTree();
-
-    this.priorytyList = [
-      {name: 'Niski', code: 'LOW', value: Prioryty.LOW},
-      {name: 'Średni', code: 'MEDIUM', value: Prioryty.MEDIUM},
-      {name: 'Wysoki', code: 'HIGH', value: Prioryty.HIGH}
-    ]
-    this.isFileDelete = false;
-    this.isFileListEdit = false;
-
   }
 
   ngOnInit(): void {
 
-    this.dataService.currentTitle.subscribe(((data) => this.title = data));
-    this.dataService.currentPosts.subscribe((data: Post []) => this.news = data);
+    this.isPostCreated = true;
+    this.isPostEdit = false;
+    this.isPostCreated = false;
+
+    this.postService.getNews().subscribe(data => this.news = data);
     this.dataService.currentAuthorized.subscribe(data => this.authorized = data);
 
-    this.isPostEdit = false;
     this.items = [
       {label: 'Delete', icon: 'pi pi-fw pi-trash', command: () => this.deletePost(this.selectedPost)},
       {label: 'Edit', icon: ' pi pi-fw pi-pencil', command: () => this.isPostEdit = true}
     ]
   }
 
-  getPost() {
-    this.postService.getAll().subscribe((data: Post[]) => this.news = data);
-    console.log(this.news);
-  }
 
   deletePost(post: Post) {
     post.fileDBList.forEach(file => this.fileService.delete(file.id).subscribe());
@@ -109,6 +93,10 @@ export class PostComponent implements OnInit {
   setSelectedPostId(post: Post) {
     this.selectedPost = post;
     this.listOfPostFiles = this.selectedPost.fileDBList;
+  }
+  openCreationDialog(){
+    this.isPostCreated = true;
+    console.log(true);
   }
 
   updatePost(files : FileDTO [] ){
@@ -148,7 +136,7 @@ export class PostComponent implements OnInit {
     this.fileToUpload = event.files;
 
     // this.listOfPostFiles.push(event.file);
-   // this.fileToUpload.forEach( file => this.listOfPostFiles.push(file));
+    // this.fileToUpload.forEach( file => this.listOfPostFiles.push(file));
   }
 
   removeFileToSend(file) {
@@ -166,10 +154,10 @@ export class PostComponent implements OnInit {
         this.treeNode = (this.categoryTree.toNodeTree());
       });
   }
-
-  setPriority() {
-    this.selectedPost.priority = this.selectedPrioryty.value;
-  }
+  //
+  // setPriority() {
+  //   this.selectedPost.priority = this.selectedPrioryty.value;
+  // }
 
   preDeletingFile(postId : string , fileId : string){
     this.isFileDelete = true;
@@ -199,9 +187,9 @@ export class PostComponent implements OnInit {
   uploadFile(event , postId: string , fileUpload){
     var post = this.news.find( post => post.id === postId);
     event.files.forEach( data => this.fileService.addFile(data)
-            .subscribe( response =>{
-              this.postService.attachToPost(postId , response.id)
-              .subscribe(); post.fileDBList.push(response)}))
+    .subscribe( response =>{
+      this.postService.attachToPost(postId , response.id)
+      .subscribe(); post.fileDBList.push(response)}))
     fileUpload.clear();
     this.message.add({
       severity: 'success',
@@ -210,6 +198,77 @@ export class PostComponent implements OnInit {
       life: 1750
     })
 
+  }
+
+  sendPost() {
+    try {
+      if (this.selectedPrioryty === undefined) {
+        this.selectedPrioryty = {
+          name: 'Niski',
+          code: 'LOW',
+          value: Prioryty.LOW
+        }
+      }
+      if (this.uploadFiles.length !== 0) {
+        let postId : string;
+
+        console.log(this.uploadFiles);
+        this.postService.addNews(new PostTO(this.postTitle, this.postText, new Date(), new Date(),
+          false, null , "MEDIUM",
+          [], [], []))
+        .subscribe(response => {this.attachFilesToPost(response.id);
+          this.clearDataToPost();
+          this.news.push(response);
+        this.isPostCreated = false;} )
+
+      } else {
+        console.log(this.uploadFiles);
+        this.postService.addNews(new PostTO(this.postTitle, this.postText, new Date(), new Date(),
+          false, null, "MEDIUM" ,
+          [], [], [])).subscribe( response => {this.news.push(response) ; this.isPostCreated = false;});
+
+      }
+      this.message.add({
+        severity: 'success',
+        summary: 'Dodano post',
+        detail: this.postTitle + " Został dodany",
+        life: 1750
+      });
+    } catch (e) {
+      this.message.add({
+        severity: 'warn',
+        summary: 'Nie udało się stworzyć postu, wybierz kategorie',
+        detail: e,
+        life: 1750
+      });
+
+    }
+  }
+
+  dscSort(){
+   this.news = this.news.sort( (a,b) => { return new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()})
+  }
+  ascSort(){
+   this.news = this.news.sort( (b,a) => { return new Date(b.dateTime).getTime() - new Date(a.dateTime).getTime()})
+  }
+
+
+
+
+  attachFilesToPost(postId: string) {
+
+    this.uploadFiles.forEach(data => this.fileService.addFile(data)
+    .subscribe(response => this.postService.attachToPost(postId, response.id)
+    .subscribe(response => console.log(response))));
+  }
+
+
+  clearDataToPost() {
+    this.postTitle = "Tytuł";
+    this.postText = "Tekst";
+    this.uploadFiles = [];
+    this.selectedCategoryForPost = null;
+    this.selectedPrioryty = null;
   }
 
 }

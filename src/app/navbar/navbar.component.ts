@@ -56,6 +56,7 @@ export class NavbarComponent implements OnInit {
     this.dataService.currentAuthorized.subscribe(data => this.authorized = data);
     this.items = [
       {label: 'Home' , icon: ' pi pi-home' , routerLink: 'home'},
+      {label: 'Aktualności' , icon: ' pi pi-bell' , routerLink: 'news'},
       {label: 'Grafik' , icon: ' pi pi-calendar' , routerLink: 'chart'},
       {label: 'Cennik' , icon: ' pi pi-dollar' , routerLink: 'priceList'},
       {label: 'Gabinety' , icon: ' pi pi-key' , routerLink: 'offices'},

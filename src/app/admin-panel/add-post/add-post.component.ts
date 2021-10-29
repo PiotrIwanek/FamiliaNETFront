@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {FileDTO} from "../../../models/FileDTO";
+import {Component, OnInit} from '@angular/core';
 import {TreeNode} from "../../../models/TreeNode";
 import {Category} from "../../../models/Category";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CategoryService} from "../../../services/category.service";
 import {MessageService} from "primeng/api";
 import {PostService} from "../../../services/post.service";
@@ -49,8 +47,11 @@ export class AddPostComponent implements OnInit {
 
   isCategoriesEdit: boolean;
 
+  postId;
 
-  constructor(private categoryServ: CategoryService, private message: MessageService, private postService: PostService, private fileService: FileDBService) {
+
+  constructor(private categoryServ: CategoryService, private message: MessageService,
+              private postService: PostService, private fileService: FileDBService) {
 
     this.downloadCategoryTree();
 
@@ -101,18 +102,11 @@ export class AddPostComponent implements OnInit {
   }
 
 
-  postPost(files: FileDTO []) {
+  attachFilesToPost(postId: string) {
 
-    if (this.selectedPrioryty === undefined) {
-      this.selectedPrioryty = {
-        name: 'Niski',
-        code: 'LOW',
-        value: Prioryty.LOW
-      }
-    }
-    // @ts-ignore
-    return this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), new Date(), false , this.selectedCategoryForPost.category,
-      this.selectedPrioryty.value, files, [] , []));
+    this.uploadFiles.forEach(data => this.fileService.addFile(data)
+    .subscribe(response => this.postService.attachToPost(postId, response.id)
+    .subscribe(response => console.log(response))));
   }
 
 
@@ -126,21 +120,37 @@ export class AddPostComponent implements OnInit {
 
   sendPost() {
     try {
-
+      if (this.selectedPrioryty === undefined) {
+        this.selectedPrioryty = {
+          name: 'Niski',
+          code: 'LOW',
+          value: Prioryty.LOW
+        }
+      }
+      if (this.selectedCategoryForPost === undefined) {
+        this.message.add({
+            severity: 'warn',
+            summary: 'Nie udało się stworzyć postu, wybierz kategorie',
+            life: 1750
+          }
+        )
+      }
       if (this.uploadFiles.length !== 0) {
-        let files: FileDTO [] = [];
+        let postId : string;
+
         console.log(this.uploadFiles);
-        this.uploadFiles.forEach(file => this.fileService.addFile(file).subscribe(response => files.push(response),
-          error => console.log(error),
-          () => this.postPost(files)
-          .subscribe(data => {
-            console.log(data);
-            this.clearDataToPost();
-          })));
+        this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), new Date(),
+          false, this.selectedCategoryForPost.category, this.selectedPrioryty.value,
+          [], [], []))
+        .subscribe(response => {this.attachFilesToPost(response.id);
+                                      this.clearDataToPost()} )
+
       } else {
-        this.postPost([]).subscribe(() => {
-          this.clearDataToPost();
-        });
+        console.log(this.uploadFiles);
+        this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), new Date(),
+          false, this.selectedCategoryForPost.category, this.selectedPrioryty.value,
+          [], [], [])).subscribe();
+
       }
       this.message.add({
         severity: 'success',
@@ -148,15 +158,14 @@ export class AddPostComponent implements OnInit {
         detail: this.postTitle + " Został dodany",
         life: 1750
       });
-
     } catch (e) {
-
       this.message.add({
         severity: 'warn',
         summary: 'Nie udało się stworzyć postu, wybierz kategorie',
         detail: e,
         life: 1750
       });
+
     }
   }
 }

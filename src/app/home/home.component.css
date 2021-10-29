@@ -1,0 +1,51 @@
+.main {
+  height: 100%;
+}
+.grey_icon{
+
+  background-color: rgba(239, 239, 239, 1);
+  height: 116px;
+  width: 117px;
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  align-content: center;
+  text-align: center;
+}
+
+.grey_title{
+  color: rgba(132, 132, 132, 1);
+  font-family: Assistant;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: center;
+  margin-bottom: 10px;
+}
+ .grey_board{
+   height: 95% ;
+   width: 350px;
+   border-radius: 35px;
+   justify-content: center;
+   align-content: center;
+   text-align: center;
+   background-color: rgba(239, 239, 239, 1);
+ }
+
+ .grey_calendar{
+   height: 95% ;
+   width: 550px;
+   border-radius: 35px;
+   justify-content: center;
+   align-content: center;
+   text-align: center;
+   background-color: rgba(239, 239, 239, 1);
+ }
+
+ .img{
+
+ }

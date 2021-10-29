@@ -33,6 +33,7 @@ import {ListboxModule} from 'primeng/listbox';
 import { TagModule } from 'primeng/tag';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {PanelMenuModule} from 'primeng/panelmenu';
+import {TableModule} from 'primeng/table';
 
 
 import {NavbarComponent} from './navbar/navbar.component';
@@ -54,12 +55,15 @@ import { AddCategoryComponent } from './admin-panel/add-category/add-category.co
 import { AddUserComponent } from './admin-panel/add-user/add-user.component';
 import { AddChartFileComponent } from './admin-panel/add-chart-file/add-chart-file.component';
 import { ErrorNotFoundComponent } from './error-not-found/error-not-found.component';
+import {InputNumberModule} from "primeng/inputnumber";
+import { NewsComponent } from './news/news.component';
 
 
 
 
 const routes: Routes = [
   {path: 'home' , component: HomeComponent},
+  {path: 'news' , component: NewsComponent},
   {path: 'admin', component: AdminPanelComponent , children: [
       {path: 'addUser', component: AddUserComponent},
       {path: 'addPost', component: AddPostComponent},
@@ -96,7 +100,8 @@ const routes: Routes = [
     AddCategoryComponent,
     AddUserComponent,
     AddChartFileComponent,
-    ErrorNotFoundComponent
+    ErrorNotFoundComponent,
+    NewsComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +134,9 @@ const routes: Routes = [
     ListboxModule,
     TagModule,
     SplitButtonModule,
-    PanelMenuModule
+    PanelMenuModule,
+    TableModule,
+    InputNumberModule
   ],
 
   exports: [RouterModule],

@@ -1,4 +1,89 @@
-<p-panel header="Dodaj użytkownika" [toggleable]="true" [collapsed]="false">
+<p-table [value]="users">
+  <ng-template pTemplate="caption">
+    <div class="p-d-flex">
+      <button pButton pRipple class="p-button-familiamed p-ml-auto" label="Dodaj" icon="pi pi-plus"
+              (click)="addUserFormVisible = true"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th> Id</th>
+      <th> Imię</th>
+      <th> Nazwisko</th>
+      <th> Login</th>
+      <th> Haslo</th>
+      <th> Rola</th>
+      <th></th>
+
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.surename}}</td>
+      <td>{{user.login}}</td>
+      <td>{{user.password | password}}</td>
+      <td>{{user.role}}</td>
+      <td>
+        <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-familiamed p-mr-2"
+                (click)="openEditUser(user)"></button>
+        <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger test"
+                (click)="deleteUser(user)"></button>
+      </td>
+    </tr>
+  </ng-template>
+
+</p-table>
+
+<p-dialog [(visible)]="addUserFormVisible" (onHide)="clearForm()">
+
+  <form [formGroup]="addUserForm">
+    <div class="p-d-flex p-flex-column ">
+      Imię:
+      <input type="text" pInputText class=" p-m-3" formControlName="name" required minlength="2">
+      Nazwisko:
+      <input type="text" pInputText class=" p-m-3" formControlName="surename" required minlength="2">
+      Login:
+      <input type="text" pInputText class=" p-m-3" formControlName="login" required minlength="4">
+      Hasło:
+      <input type="password" pInputText class=" p-m-3" formControlName="password" name="password" required
+             minlength="5">
+      <div><input type="checkbox" (click)="showPass()"> Pokaż hasło</div>
+      <hr>
+      Admin:
+      <p-inputSwitch formControlName="role"></p-inputSwitch>
+      <hr>
+      <button *ngIf="!isUserEdited" pButton pRipple class="p-button-familiamed" label="Dodaj"
+              (click)="addUser()"></button>
+      <button *ngIf="isUserEdited" pButton pRipple class="p-button-familiamed" label="Zapisz"
+              (click)="editUser()"></button>
+    </div>
+  </form>
+
+</p-dialog>
+
+<!--<p-dialog [(visible)]="editUserFormVisible">-->
 
 
-</p-panel>
+<!--  <form [formGroup]="editUserForm" (ngSubmit)="editUser()">-->
+<!--    <div class="p-d-flex p-flex-column ">-->
+<!--      Imię:-->
+<!--      <input type="text" pInputText class=" p-m-3" formControlName="name" required minlength="2" placeholder="{{editedUser.name}}">-->
+<!--      Nazwisko:-->
+<!--      <input type="text" pInputText class=" p-m-3" formControlName="surename" required minlength="2" placeholder='{{editedUser.surename}}'>-->
+<!--      Login:-->
+<!--      <input type="text" pInputText class=" p-m-3"formControlName="login" required minlength="4" placeholder='{{editedUser.login}}' >-->
+<!--      Hasło:-->
+<!--      <input type="password" pInputText class=" p-m-3 " formControlName="password"   name="password" required minlength="5" placeholder='{{editedUser.password}} '>-->
+<!--      <div>   <input type="checkbox" (click)="showPass()"> Pokaż hasło </div>-->
+<!--      <hr>-->
+<!--      Admin:-->
+<!--      <p-inputSwitch formControlName="role"></p-inputSwitch>-->
+<!--      <hr>-->
+<!--      <button pButton pRipple class="p-button-familiamed" label="Edytuj" (click)="editUser()"></button>-->
+<!--    </div>-->
+<!--  </form>-->
+
+
+<!--</p-dialog>-->

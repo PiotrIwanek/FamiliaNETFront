@@ -13,8 +13,11 @@
       <h4>PRIORYTET</h4>
       <p-listbox [options]="priorytyList" [(ngModel)]="selectedPrioryty" optionLabel="name"></p-listbox>
       <div class="p-d-flex p-jc-between p-ac-center">
-       <div> <h4>WYBIERZ KATEGORIE</h4></div>
-        <div class="p-mt-4"><button title="Dodaj Kategorie" pButton class="p-button-rounded p-ml-auto" icon="pi pi-pencil" style="height: 25px; width: 25px;" (click)="isCategoriesEdit = true"></button></div>
+        <div><h4>WYBIERZ KATEGORIE</h4></div>
+        <div class="p-mt-4">
+          <button title="Dodaj Kategorie" pButton class="p-button-rounded p-ml-auto" icon="pi pi-pencil"
+                  style="height: 25px; width: 25px;" (click)="isCategoriesEdit = true"></button>
+        </div>
       </div>
       <p-tree [value]="treeNode.children" selectionMode="single" [(selection)]="selectedCategoryForPost"
               (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"></p-tree>
@@ -30,6 +33,6 @@
   </div>
 </p-panel>
 
-<p-dialog [(visible)]="isCategoriesEdit"  [modal]="true" class="dialog">
+<p-dialog [(visible)]="isCategoriesEdit" [modal]="true" class="dialog">
   <app-add-category></app-add-category>
 </p-dialog>

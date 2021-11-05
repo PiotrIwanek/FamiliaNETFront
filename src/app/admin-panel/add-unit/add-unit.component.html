@@ -1,0 +1,47 @@
+<div>
+
+  <p-table [value]="units">
+    <ng-template *ngIf="authorized" pTemplate="caption">
+      <div class="p-d-flex">
+        <button class="p-button p-button-secondary p-button-rounded p-ml-auto" (click)="addUnitVisible = true">Dodaj
+        </button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 6vw;"> Id</th>
+        <th> Nazwa</th>
+        <th style="width: 10vw;"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-unit>
+      <tr>
+        <th> {{unit.id}}</th>
+        <td> {{unit.name}}</td>
+        <td>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-familiamed p-mr-2"
+                  (click)="openEditUnit(unit)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-secondary test"
+                  (click)="deleteUnit(unit)"></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p-dialog [(visible)]="addUnitVisible">
+    <form [formGroup]="unitAddForm">
+      <div class="p-d-flex p-flex-column">
+
+        Nazwa:
+
+        <input class="p-m-3" pInputText formControlName="name" required>
+
+        <div class="p-d-flex">
+          <button *ngIf="!isUnitEdited" pButton class="p-button-familiamed" (click)="addUnit()">Dodaj</button>
+          <button *ngIf="isUnitEdited" pButton class="p-button-familiamed" (click)="editUnit()">Edytuj</button>
+
+        </div>
+      </div>
+    </form>
+  </p-dialog>
+</div>
+

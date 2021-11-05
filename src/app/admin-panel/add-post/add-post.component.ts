@@ -5,7 +5,7 @@ import {CategoryService} from "../../../services/category.service";
 import {MessageService} from "primeng/api";
 import {PostService} from "../../../services/post.service";
 import {FileDBService} from "../../../services/fileDB.service";
-import {PostTO} from "../../../models/PostTO";
+import {Post} from "../../../models/Post.model";
 
 enum Prioryty {
   LOW = 'LOW', MEDIUM = 'MEDIUM', HIGH = 'HIGH'
@@ -136,20 +136,22 @@ export class AddPostComponent implements OnInit {
         )
       }
       if (this.uploadFiles.length !== 0) {
-        let postId : string;
+        let postId: string;
 
         console.log(this.uploadFiles);
-        this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), new Date(),
+        this.postService.addPost(new Post(null, this.postTitle, this.postText, new Date(), new Date(),
           false, this.selectedCategoryForPost.category, this.selectedPrioryty.value,
-          [], [], []))
-        .subscribe(response => {this.attachFilesToPost(response.id);
-                                      this.clearDataToPost()} )
+          [], [], [], []))
+        .subscribe(response => {
+          this.attachFilesToPost(response.id);
+          this.clearDataToPost()
+        })
 
       } else {
         console.log(this.uploadFiles);
-        this.postService.addPost(new PostTO(this.postTitle, this.postText, new Date(), new Date(),
+        this.postService.addPost(new Post(null, this.postTitle, this.postText, new Date(), new Date(),
           false, this.selectedCategoryForPost.category, this.selectedPrioryty.value,
-          [], [], [])).subscribe();
+          [], [], [], [])).subscribe();
 
       }
       this.message.add({

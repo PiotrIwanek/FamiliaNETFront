@@ -1,7 +1,8 @@
 <h3>Podgląd : </h3>
 
-<iframe title="grafik" [src]="chartFile.url | safe"  style="width: 100%; height: 300px;"> </iframe>
+<iframe title="grafik" [src]="chartFile.url | safe" style="width: 100%; height: 300px;"></iframe>
 
 <hr>
 <h3>Załaduj plik :</h3>
-<p-fileUpload  #fileUpload mode="basic" class="p-ml-auto" customUpload = "true" (uploadHandler)="uploadFile($event , fileUpload)"></p-fileUpload>
+<p-fileUpload #fileUpload mode="basic" class="p-ml-auto" customUpload="true"
+              (uploadHandler)="uploadFile($event , fileUpload)"></p-fileUpload>

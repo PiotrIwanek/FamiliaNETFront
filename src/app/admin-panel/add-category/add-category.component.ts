@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TreeNode} from "../../../models/TreeNode";
 import {Category} from "../../../models/Category";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -6,8 +6,6 @@ import {CategoryService} from "../../../services/category.service";
 import {MessageService} from "primeng/api";
 import {PostService} from "../../../services/post.service";
 import {FileDBService} from "../../../services/fileDB.service";
-import {FileDTO} from "../../../models/FileDTO";
-import {PostTO} from "../../../models/PostTO";
 
 @Component({
   selector: 'app-add-category',
@@ -27,7 +25,6 @@ export class AddCategoryComponent implements OnInit {
   selectedCategoryForCategory: TreeNode = null;
 
   uploadFiles: File[] = [];
-
 
 
   public postTitle: string = 'Tytuł';

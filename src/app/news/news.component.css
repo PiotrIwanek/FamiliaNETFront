@@ -1,3 +1,8 @@
-.right{
+.right {
   margin-left: auto;
+}
+
+:host ::ng-deep .p-chip.familiamed-chip {
+  background: rgba(0, 78, 148, 1) !important;
+  color: white !important;
 }

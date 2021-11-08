@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {FileDTO} from "../models/FileDTO";
 import {environment} from "../environments/environment";
@@ -28,10 +28,10 @@ export class FileDBService {
   public addChartFile(file: File) {
     let body = new FormData();
     body.append("file", file);
-    return this.http.post<FileDTO>(this.URL + "/addChartFile" , body);
+    return this.http.post<FileDTO>(this.URL + "/addChartFile", body);
   }
 
-  public getChartFile(){
+  public getChartFile() {
     return this.http.get<FileDTO>(this.URL + "/getChartFile");
   }
 

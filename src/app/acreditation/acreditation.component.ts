@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MenuItem} from "../../models/MenuItem";
 import {CategoryService} from "../../services/category.service";
 import {Category} from "../../models/Category";
@@ -45,6 +45,7 @@ export class AcreditationComponent implements OnInit {
       }
     );
   }
+
   changeCurrentTitle(title: string) {
     this.dataService.changeCurrentTitle(title);
   }

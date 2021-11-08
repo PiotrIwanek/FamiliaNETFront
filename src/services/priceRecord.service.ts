@@ -6,9 +6,10 @@ import {PriceRecord} from "../models/PriceRecord";
 @Injectable({
   providedIn: 'root'
 })
-export class PriceRecordService{
+export class PriceRecordService {
 
-  URL =  environment.URL + 'priceRecord';
+  URL = environment.URL + 'priceRecord';
+
   // URL =  "http://10.10.8.253:8090/" + 'priceRecord';
 
 
@@ -16,16 +17,20 @@ export class PriceRecordService{
   }
 
 
-  public getAll(){
+  public getAll() {
     return this.http.get<PriceRecord[]>(this.URL);
   }
 
-  public add( priceRecord: PriceRecord){
-    return this.http.post<PriceRecord>(this.URL , priceRecord);
+  public add(priceRecord: PriceRecord) {
+    return this.http.post<PriceRecord>(this.URL, priceRecord);
   }
 
-  public delete(id:number){
+  public delete(id: number) {
     return this.http.delete(this.URL + "/" + encodeURIComponent(id.toString()));
+  }
+
+  public update(priceRecord: PriceRecord) {
+    return this.http.put(this.URL + '/' + encodeURIComponent(priceRecord.id), priceRecord);
   }
 
 }

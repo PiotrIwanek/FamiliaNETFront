@@ -1,36 +1,39 @@
 <p-toast></p-toast>
 <div class="p-d-flex p-flex-column body">
-<div class="top" >
+  <div class="top">
 
-  <app-navbar id ="navbar" class = "menu" ></app-navbar>
-  <div class = 'p-d-flex p-jc-center'>
-  <div class ="logo"><a><img class="img" src='../assets/images/logo.png'></a></div>
+    <app-navbar id="navbar" class="menu"></app-navbar>
+    <div class='p-d-flex p-jc-center'>
+      <div class="logo"><a><img class="img" src='../assets/images/logo.png'></a></div>
 
+    </div>
   </div>
-</div>
-<div class="content">
-  <router-outlet></router-outlet>
-</div>
-
-<footer class="footer p-d-flex p-flex-row p-jc-between">
-  <div>FamiliaMed Sp. z o.o. <br><br> Osiedle Przy Plantach 8 <br><br> 43-190 Mikołów</div>
-  <div>REGON: 243516936 <br>NIP: 635-183-33-61 <br> KRS: 0000502358 <br> <br> tel. 32 70 80 718</div>
-  <div>Poradnia Mikołów osiedle Przy Plantach 8  Przy Plantach 8  <a class="phonenumbers"> tel. – 32 70 80 710</a><br><br>
-    Poradnia Mikołów osiedle Mickiewicza 20       <a class="phonenumbers"> tel. – 32 70 80 711</a><br><br>
-    Poradnia Mikołów Bujaków ul. ks. Górka 60     <a class="phonenumbers"> tel. – 32 70 80 720</a><br><br>
-    Poradnia Lędziny ul. Lędzińska 1      <a class="phonenumbers"> tel. – 32 21 67 838</a><br>
+  <div class="content">
+    <router-outlet></router-outlet>
   </div>
-</footer>
+
+  <footer class="footer p-d-flex p-flex-row p-jc-between">
+    <div>FamiliaMed Sp. z o.o. <br><br> Osiedle Przy Plantach 8 <br><br> 43-190 Mikołów</div>
+    <div>REGON: 243516936 <br>NIP: 635-183-33-61 <br> KRS: 0000502358 <br> <br> tel. 32 70 80 718</div>
+    <div>Poradnia Mikołów osiedle Przy Plantach 8 Przy Plantach 8 <a class="phonenumbers"> tel. – 32 70 80
+      710</a><br><br>
+      Poradnia Mikołów osiedle Mickiewicza 20 <a class="phonenumbers"> tel. – 32 70 80 711</a><br><br>
+      Poradnia Mikołów Bujaków ul. ks. Górka 60 <a class="phonenumbers"> tel. – 32 70 80 720</a><br><br>
+      Poradnia Lędziny ul. Lędzińska 1 <a class="phonenumbers"> tel. – 32 21 67 838</a><br>
+    </div>
+  </footer>
 </div>
 
 
 <p-dialog [(visible)]="logInDialog" header="Zaloguj" [modal]="true">
-<div class="dialog p-d-flex p-flex-column " >
-  <div class="p-m-2 input"><input [(ngModel)]="usernameValue" type="text" pInputText placeholder="Użytkownik" class="p-inputtext"></div>
+  <div class="dialog p-d-flex p-flex-column ">
+    <div class="p-m-2 input"><input [(ngModel)]="usernameValue" type="text" pInputText placeholder="Użytkownik"
+                                    class="p-inputtext"></div>
 
-  <div class="p-m-2 input" ><input [(ngModel)]="passwordValue" type="password" pInputText placeholder="Hasło" class="p-inputtext"></div>
+    <div class="p-m-2 input"><input [(ngModel)]="passwordValue" type="password" pInputText placeholder="Hasło"
+                                    class="p-inputtext"></div>
 
-  <p-button class="p-as-center p-mt-2" label="Zaloguj" (click)='log()'></p-button>
-</div>
+    <p-button class="p-as-center p-mt-2" label="Zaloguj" (keydown.enter)='log()' (click)="log()"></p-button>
+  </div>
 </p-dialog>
 

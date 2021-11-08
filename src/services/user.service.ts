@@ -10,25 +10,33 @@ import {environment} from "../environments/environment";
 
 export class UserService {
 
-  URL =  environment.URL + 'user';
+  URL = environment.URL + 'user';
+
   // URL =  "http://10.10.8.253:8090/" + 'user';
 
-constructor(private http : HttpClient) {
-}
+  constructor(private http: HttpClient) {
+  }
 
-  public getAll (){
-  return this.http.get(this.URL).pipe(
-    map( function (data: User[]) { data.map( data => new User(data.id ,data.name ,data.surename , data.login ,data.password ,data.role)) } )
-  )
+  public getAll() {
+    return this.http.get<User[]>(this.URL);
   }
 
 
-  public getById( id : number){
-  return this.http.get(this.URL + "/" + encodeURIComponent(id)).pipe( map(function (data: User){ return User.fromData(data)}));
+  public getById(id: number) {
+    return this.http.get(this.URL + "/" + encodeURIComponent(id)).pipe(map(function (data: User) {
+      return User.fromData(data)
+    }));
   }
 
-  public createUser(user : User){
-  return this.http.post( this.URL , user);
-}
+  public createUser(user: User) {
+    return this.http.post<User>(this.URL, user);
+  }
 
+  public update(user: User) {
+    return this.http.put<User>(this.URL + '/update/' + encodeURIComponent(user.id), user);
+  }
+
+  public delete(userId) {
+    return this.http.delete(this.URL + '/delete/' + encodeURIComponent(userId));
+  }
 }

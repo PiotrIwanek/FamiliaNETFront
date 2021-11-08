@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Post} from "../models/Post.model";
 import {FileDTO} from "../models/FileDTO";
-
+import {User} from "../models/User";
 
 
 @Injectable({
@@ -23,25 +23,43 @@ export class DataService {
   currentPosts = this.postsSource.asObservable();
 
 
-  private authorizedSource = new BehaviorSubject<boolean>(false) ;
+  private authorizedSource = new BehaviorSubject<boolean>(false);
   currentAuthorized = this.authorizedSource.asObservable();
 
-  private chartFileSource = new BehaviorSubject<FileDTO>(new FileDTO({id: '' , name : '' ,
-                                                                  url: 'http://localhost:4200/error', type :' ', size : 3}));
+  private chartFileSource = new BehaviorSubject<FileDTO>(new FileDTO({
+    id: '', name: '',
+    url: 'http://localhost:4200/error', type: ' ', size: 3
+  }));
   currentChartFile = this.chartFileSource.asObservable();
+
+  private userSource = new BehaviorSubject<User>(new User('', ' ', '', ' ', '', ''))
+
+  currentUser = this.userSource.asObservable();
+
+  private newsSource = new  BehaviorSubject<Post[]>([])
+
+  currentNews = this.newsSource.asObservable();
 
   constructor() {
   }
 
-  changeCurrentChartFile ( chartFile : FileDTO){
+
+  changeCurrentNews(news : Post[]){
+    this.newsSource.next(news);
+  }
+  changeCurrentUser(user: User) {
+    this.userSource.next(user);
+  }
+
+  changeCurrentChartFile(chartFile: FileDTO) {
     this.chartFileSource.next(chartFile);
   }
 
-  changeCurrentLogIn (logIn : boolean){
+  changeCurrentLogIn(logIn: boolean) {
     this.logInSource.next(logIn);
   }
 
-  changeCurrentLogInDialog ( logInDialog : boolean){
+  changeCurrentLogInDialog(logInDialog: boolean) {
     this.logInDialogSource.next(logInDialog);
   }
 
@@ -49,11 +67,11 @@ export class DataService {
     this.titleSource.next(title);
   }
 
-  changePosts(posts : Post[]) {
+  changePosts(posts: Post[]) {
     this.postsSource.next(posts);
   }
 
-  changeAuthorized (isAuthorized: boolean){
+  changeAuthorized(isAuthorized: boolean) {
     this.authorizedSource.next(isAuthorized);
   }
 

@@ -2,16 +2,19 @@
   <h2>Cennik: </h2>
   <p-toolbar *ngIf="authorized" styleClass="p-mb-4">
     <ng-template pTemplate="left">
-      <button pButton pRipple label="Nowy" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew()"></button>
-      <button pButton pRipple label="Usuń" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRecords()" [disabled]="!selectedRecords || !selectedRecords.length"></button>
+      <button pButton pRipple label="Nowy" icon="pi pi-plus" class="p-button-familiamed p-mr-2"
+              (click)="openNew()"></button>
+      <button pButton pRipple label="Usuń" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedRecords()"
+              [disabled]="!selectedRecords || !selectedRecords.length"></button>
     </ng-template>
 
   </p-toolbar>
-  <p-table [value]="priceRecords"  [(selection)]="selectedRecords"  [globalFilterFields]="['name']" #priceRecordTable>
+  <p-table [value]="priceRecords" [(selection)]="selectedRecords" [globalFilterFields]="['name']" #priceRecordTable>
     <ng-template pTemplate="caption">
       <div class="p-d-flex">
         <span class="p-input-icon-left p-ml-auto">
-          <input pInputText type="text" class = 'p-inputtext' (input)="priceRecordTable.filterGlobal($event.target.value, 'contains')" placeholder="Szukaj ..." />
+          <input pInputText type="text" class='p-inputtext'
+                 (input)="priceRecordTable.filterGlobal($event.target.value, 'contains')" placeholder="Szukaj ..."/>
                 </span>
       </div>
     </ng-template>
@@ -20,7 +23,9 @@
         <th *ngIf="authorized" style="width: 3rem">
           <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
         </th>
-        <th pSortableColumn="name" style="width: 20%">Nazwa<p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="name" style="width: 20%">Nazwa
+          <p-sortIcon field="name"></p-sortIcon>
+        </th>
         <th>Opis</th>
         <th style="width: 8rem">Cena</th>
         <th *ngIf="authorized" style="width: 10%"></th>
@@ -35,34 +40,68 @@
         <td>{{record.description}}</td>
         <td>{{record.price}}  PLN</td>
         <td *ngIf="authorized">
-          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="openEditRecord(record)"></button>
-          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning test" (click)="deleteRecord(record)"></button>
+          <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-familiamed p-mr-2"
+                  (click)="openEditRecord(record)"></button>
+          <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger test"
+                  (click)="deleteRecord(record)"></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
 </div>
-<p-dialog [(visible)]="addRecordDialog" >
-<form [formGroup]="addForm">
-  <div class="p-inputgroup p-d-flex p-flex-column">
-    <span class="p-mb-3"> Dodaj pozycję : </span>
-    <div class="p-d-flex p-flex-row p-mb-3"><span  class="p-inputgroup-addon"> Nazwa </span> <input pInputText class="p-inputtext" formControlName="name"  type="text"  #name required></div>
-    <div class="p-d-flex p-flex-row p-mb-3"><span  class="p-inputgroup-addon"> Opis </span> <input pInputText formControlName="description" class="p-inputtext" type="text" #description required></div>
-    <div class="p-d-flex p-flex-row p-mb-3"><span  class="p-inputgroup-addon"> Cena </span> <p-inputNumber  formControlName="price" mode="currency" currency="PLN" locale="pl-PL"  #price required></p-inputNumber></div>
-    <div *ngIf="!addForm.valid" style="color: darkred"> Uzupełnij dane </div>
-    <p></p>
-    <div> <button pButton class="p-button-rounded p-button-success" (click)="addRecord(name.value ,description.value ,price.value)">Dodaj</button></div>
-  </div>
-</form>
+<p-dialog [(visible)]="addRecordDialog">
+  <form [formGroup]="addForm">
+    <div class="p-inputgroup p-d-flex p-flex-column">
+      <span class="p-mb-3"> Dodaj pozycję : </span>
+      <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Nazwa </span> <input pInputText
+                                                                                                     class="p-inputtext"
+                                                                                                     formControlName="name"
+                                                                                                     type="text" #name
+                                                                                                     required></div>
+      <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Opis </span> <input pInputText
+                                                                                                    formControlName="description"
+                                                                                                    class="p-inputtext"
+                                                                                                    type="text"
+                                                                                                    #description
+                                                                                                    required></div>
+      <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Cena </span>
+        <p-inputNumber formControlName="price" mode="currency" currency="PLN" locale="pl-PL" #price
+                       required></p-inputNumber>
+      </div>
+      <div *ngIf="!addForm.valid" style="color: darkred"> Uzupełnij dane</div>
+      <p></p>
+      <div>
+        <button pButton class="p-button-rounded p-button-success"
+                (click)="addRecord(name.value ,description.value ,price.value)">Dodaj
+        </button>
+      </div>
+    </div>
+  </form>
 </p-dialog>
 
 <p-dialog [(visible)]="editRecordDialog">
 
   <div class="p-inputgroup p-d-flex p-flex-column">
     <span class="p-mb-3"> Dodaj pozycję : </span>
-    <div class="p-d-flex p-flex-row p-mb-3"><span  class="p-inputgroup-addon"> Nazwa </span> <input pInputText [(ngModel)]='currentEditingRecord.name' class="p-inputtext" type="text"  #name></div>
-    <div class="p-d-flex p-flex-row p-mb-3"><span  class="p-inputgroup-addon"> Opis </span> <input pInputText [(ngModel)]='currentEditingRecord.description' class="p-inputtext" type="text" #description></div>
-    <div class="p-d-flex p-flex-row p-mb-3"><span  class="p-inputgroup-addon"> Cena </span> <p-inputNumber  [(ngModel)]='currentEditingRecord.price' mode="currency" currency="PLN" locale="pl-PL" [required]="true" #price></p-inputNumber></div>
-    <div> <button pButton class="p-button-rounded p-button-success" (click)="editRecord(currentEditingRecord.name , currentEditingRecord.description ,currentEditingRecord.price)">Dodaj</button></div>
+    <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Nazwa </span> <input pInputText
+                                                                                                   [(ngModel)]='currentEditingRecord.name'
+                                                                                                   class="p-inputtext"
+                                                                                                   type="text" #name>
+    </div>
+    <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Opis </span> <input pInputText
+                                                                                                  [(ngModel)]='currentEditingRecord.description'
+                                                                                                  class="p-inputtext"
+                                                                                                  type="text"
+                                                                                                  #description></div>
+    <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Cena </span>
+      <p-inputNumber [(ngModel)]='currentEditingRecord.price' mode="currency" currency="PLN" locale="pl-PL"
+                     [required]="true" #price></p-inputNumber>
+    </div>
+    <div>
+      <button pButton class="p-button-rounded p-button-success"
+              (click)="editRecord(currentEditingRecord.name , currentEditingRecord.description ,currentEditingRecord.price)">
+        Dodaj
+      </button>
+    </div>
   </div>
 </p-dialog>

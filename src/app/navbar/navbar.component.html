@@ -1,9 +1,17 @@
-<p-menubar  styleClass="menu" [model]="items">
- <div class="p-d-flex">
-   <div class = 'p-p-2' *ngIf="authorized"><button  pButton icon="pi pi-cog" class="blueRounded p-button-secondary p-button-rounded" [routerLink]="['admin']"></button></div>
-   <div class = 'p-p-2' *ngIf="!logIn"><button pButton type="button" class=" blueRounded p-button-secondary p-button-rounded" (click)="log()">Zaloguj</button></div>
-   <div class = 'p-p-2' *ngIf="logIn"><p-splitButton label="{{user.name}}  {{user.surename}}"  styleClass="custom-background-style" [model]="dropDownItems"></p-splitButton></div>
- </div>
+<p-menubar styleClass="menu" [model]="items">
+  <div class="p-d-flex">
+    <div class='p-p-2' *ngIf="authorized">
+      <button pButton icon="pi pi-cog" class="p-button-rounded p-button-familiamed " [routerLink]="['admin']"></button>
+    </div>
+    <div class='p-p-2' *ngIf="!logIn">
+      <button pButton type="button" class="p-button-familiamed p-button-rounded p-button-familiamed " (click)="log()">
+        Zaloguj
+      </button>
+    </div>
+    <div class='p-p-2' *ngIf="logIn">
+      <p-splitButton label="{{user.name}}  {{user.surename}}" [model]="dropDownItems"></p-splitButton>
+    </div>
+  </div>
 </p-menubar>
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FileDTO} from "../../models/FileDTO";
 import {DataService} from "../../services/data.service";
 import {FileDBService} from "../../services/fileDB.service";
@@ -12,17 +12,18 @@ export class ChartComponent implements OnInit {
 
   file: FileDTO;
 
-  constructor(private dataService : DataService , private fileService: FileDBService) { }
+  constructor(private dataService: DataService, private fileService: FileDBService) {
+  }
 
   ngOnInit(): void {
-    this.fileService.getChartFile().subscribe( data => this.dataService.changeCurrentChartFile(data))
+    this.fileService.getChartFile().subscribe(data => this.dataService.changeCurrentChartFile(data))
 
 
-    this.dataService.currentChartFile.subscribe( data => this.file = data);
+    this.dataService.currentChartFile.subscribe(data => this.file = data);
 
   }
 
-  log(){
+  log() {
     console.log(this.file);
   }
 

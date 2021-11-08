@@ -34,13 +34,13 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem('logOn') === 'true') {
       let userId = localStorage.getItem('userID');
       this.userService.getById(Number(userId)).subscribe(data => this.user = data);
-     this.dataService.changeCurrentLogIn(true);
-      if(localStorage.getItem('authorized') === 'true') {
+      this.dataService.changeCurrentLogIn(true);
+      if (localStorage.getItem('authorized') === 'true') {
         this.dataService.changeAuthorized(true);
       }
     }
-    this.dataService.currentLogInDialog.subscribe( data => this.logInDialog = data);
-    this.dataService.currentLogIn.subscribe( data => this.logIn = data);
+    this.dataService.currentLogInDialog.subscribe(data => this.logInDialog = data);
+    this.dataService.currentLogIn.subscribe(data => this.logIn = data);
     this.dataService.currentAuthorized.subscribe(data => this.authorized = data);
   }
 
@@ -50,7 +50,10 @@ export class AppComponent implements OnInit {
     this.loginService.logIn(this.usernameValue, this.passwordValue).pipe(map(function (data: User) {
       return User.fromData(data)
     }))
-    .subscribe(data => this.user = User.fromData(data),
+    .subscribe(data => {
+        this.user = User.fromData(data);
+        this.dataService.changeCurrentUser(data);
+      },
       error => this.messageService.add({
         severity: 'error',
         summary: '!!!',
@@ -63,7 +66,7 @@ export class AppComponent implements OnInit {
 
   public authenticate() {
     if (this.user.role === 'ADMIN') {
-      localStorage.setItem('logOn' , 'true');
+      localStorage.setItem('logOn', 'true');
       localStorage.setItem('authorized', 'true');
       localStorage.setItem('userID', this.user.id.toString())
       localStorage.setItem('login', this.user.name);
@@ -71,7 +74,7 @@ export class AppComponent implements OnInit {
       this.dataService.changeAuthorized(true);
       this.dataService.changeCurrentLogInDialog(false);
     } else if (this.user.role === 'USER') {
-      localStorage.setItem('logOn' , 'true');
+      localStorage.setItem('logOn', 'true');
       localStorage.setItem('authorized', 'false');
       localStorage.setItem('userID', this.user.id.toString())
       localStorage.setItem('login', this.user.name);
@@ -79,7 +82,7 @@ export class AppComponent implements OnInit {
       this.dataService.changeAuthorized(false);
       this.dataService.changeCurrentLogInDialog(false);
     } else {
-      localStorage.setItem('logOn' , 'false');
+      localStorage.setItem('logOn', 'false');
       this.dataService.changeCurrentLogIn(false);
       this.dataService.changeAuthorized(false);
       this.dataService.changeCurrentLogInDialog(true);

@@ -35,9 +35,9 @@ export class PriceListComponent implements OnInit {
 
     this.priceRecordService.getAll().subscribe(data => this.priceRecords = data);
 
-    this.name = new FormControl("" , [Validators.required ])
-    this.description = new FormControl("" , [Validators.required ])
-    this.price = new FormControl(0 , [Validators.required ])
+    this.name = new FormControl("", [Validators.required])
+    this.description = new FormControl("", [Validators.required])
+    this.price = new FormControl(0, [Validators.required])
     this.addForm = new FormGroup(
       {
         name: this.name,
@@ -72,7 +72,7 @@ export class PriceListComponent implements OnInit {
         })
       }
     } else {
-        console.log("INVALID")
+      console.log("INVALID")
     }
   }
 
@@ -86,20 +86,11 @@ export class PriceListComponent implements OnInit {
     this.editRecordDialog = true;
   }
 
-  editRecord(name
-               :
-               string, description
-               :
-               string, price
-               :
-               number
-  ) {
-    /* var record : PriceRecord;
-      record = this.priceRecords.filter( record =>  record.id === this.currentEditingRecord.id)[0];
-     record.name = name;
-     record.description = description;
-     record.price = price;*/
-
+  editRecord(name: string, description: string, price: number) {
+    this.currentEditingRecord.name = name;
+    this.currentEditingRecord.description = description;
+    this.currentEditingRecord.price = price;
+    this.priceRecordService.update(this.currentEditingRecord).subscribe(data => console.log(data));
   }
 
   deleteRecord(record) {

@@ -13,9 +13,9 @@ export class FileDTO {
     this.size = file.size;
   }
 
-  public static listFromData (data : FileDTO[]){
-   let listToReturn : FileDTO [] = [];
-    data.forEach( data => listToReturn.push(new FileDTO(data)));
+  public static listFromData(data: FileDTO[]) {
+    let listToReturn: FileDTO [] = [];
+    data.forEach(data => listToReturn.push(new FileDTO(data)));
     return listToReturn;
   }
 

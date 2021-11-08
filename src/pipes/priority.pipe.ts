@@ -2,14 +2,14 @@ import {Pipe, PipeTransform} from "@angular/core";
 
 
 enum Prioryty {
-  LOW = 'LOW', MEDIUM ='MEDIUM', HIGH = 'HIGH'
+  LOW = 'LOW', MEDIUM = 'MEDIUM', HIGH = 'HIGH'
 }
 
-@Pipe({name : 'priority'})
-export class PriorityPipe implements PipeTransform{
+@Pipe({name: 'priority'})
+export class PriorityPipe implements PipeTransform {
 
-  transform(priority: string ) {
-    switch (priority){
+  transform(priority: string) {
+    switch (priority) {
       case 'LOW':
         return "Niski";
       case 'MEDIUM':
@@ -20,11 +20,12 @@ export class PriorityPipe implements PipeTransform{
   }
 
 }
-@Pipe({name : 'priorityIcon'})
-export class priorityIconPipe implements PipeTransform{
 
-  transform(priority: string ) {
-    switch (priority){
+@Pipe({name: 'priorityIcon'})
+export class priorityIconPipe implements PipeTransform {
+
+  transform(priority: string) {
+    switch (priority) {
       case 'LOW':
         return "pi pi-info-circle";
       case 'MEDIUM':

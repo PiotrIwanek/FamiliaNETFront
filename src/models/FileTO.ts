@@ -1,13 +1,12 @@
+export class FileTO {
 
-export class FileTO{
-
-  public id : string;
+  public id: string;
 
   constructor(id: string) {
     this.id = id;
   }
 
-  public static fromData( data ){
-    return new FileTO( data.id);
+  public static fromData(data) {
+    return new FileTO(data.id);
   }
 }

@@ -9,7 +9,7 @@ export class MenuItem {
   public routerLink: string;
   public command: Function;
   public items: MenuItem [];
-  public categoryId : number;
+  public categoryId: number;
 
   constructor(label: string, icon: string, routerLink: string, command: Function, items: Category[], categoryId: number) {
 
@@ -24,6 +24,6 @@ export class MenuItem {
 
   fromCategory(category: Category, command: Function) {
 
-    return new MenuItem(category.name, 'pi pi-folder', 'post/', command, category.children , category.id);
+    return new MenuItem(category.name, 'pi pi-folder', 'post/', command, category.children, category.id);
   }
 }

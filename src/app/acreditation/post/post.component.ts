@@ -22,7 +22,7 @@ interface PriorytyInterface {
 }
 
 
-interface  uploadedFiles {
+interface uploadedFiles {
 
   id: string;
   isUploaded: boolean;
@@ -44,14 +44,14 @@ export class PostComponent implements OnInit {
   items: MenuItem[];
 
   selectedPost: Post = Post.prototype;
-    // new post( '', '', ' ', new Date(), new Date(), false ,  Category.prototype , 'LOW' ,[] ,[] , []);
+  // new post( '', '', ' ', new Date(), new Date(), false ,  Category.prototype , 'LOW' ,[] ,[] , []);
 
   authorized: boolean;
   isFileDelete: boolean;
   isPostEdit: boolean;
 
   fileIdToDelete: string;
-  postIdToDeleteFile:string;
+  postIdToDeleteFile: string;
 
   priorytyList: PriorytyInterface [];
   selectedPrioryty: PriorytyInterface;
@@ -61,10 +61,10 @@ export class PostComponent implements OnInit {
   categoryTree: Category = Category.prototype;
 
   isFileListEdit: boolean;
-  fileToUpload : File[];
-  listOfPostFiles : Array<any>;
+  fileToUpload: File[];
+  listOfPostFiles: Array<any>;
 
-  uploader : FileUpload;
+  uploader: FileUpload;
 
 
   constructor(private postService: PostService, private catService: CategoryService, private dataService: DataService
@@ -111,11 +111,11 @@ export class PostComponent implements OnInit {
     this.listOfPostFiles = this.selectedPost.fileDBList;
   }
 
-  updatePost(files : FileDTO [] ){
+  updatePost(files: FileDTO []) {
 
     return this.postService.updatePost(new Post(this.selectedPost.id, this.selectedPost.name, this.selectedPost.main,
-      this.selectedPost.dateTime, this.selectedPost.deadLineDate  , this.selectedPost.shouldBeSign , this.selectedPost.category,
-      this.selectedPost.priority, this.selectedPost.fileDBList , this.selectedPost.users , this.selectedPost.signs , this.selectedPost.units));
+      this.selectedPost.dateTime, this.selectedPost.deadLineDate, this.selectedPost.shouldBeSign, this.selectedPost.category,
+      this.selectedPost.priority, this.selectedPost.fileDBList, this.selectedPost.users, this.selectedPost.signs, this.selectedPost.units));
   }
 
 
@@ -127,7 +127,7 @@ export class PostComponent implements OnInit {
       // files = files.filter( data  =>  data !== null );
       this.fileToUpload.forEach(file => this.fileService.addFile(file).subscribe(response => files.push(response),
         error => console.log(error),
-        () => this.updatePost(files).subscribe( response => console.log(response))));
+        () => this.updatePost(files).subscribe(response => console.log(response))));
     } else {
       this.postService.updatePost(this.selectedPost).subscribe(data => console.log(data));
     }
@@ -148,7 +148,7 @@ export class PostComponent implements OnInit {
     this.fileToUpload = event.files;
 
     // this.listOfPostFiles.push(event.file);
-   // this.fileToUpload.forEach( file => this.listOfPostFiles.push(file));
+    // this.fileToUpload.forEach( file => this.listOfPostFiles.push(file));
   }
 
   removeFileToSend(file) {
@@ -171,22 +171,22 @@ export class PostComponent implements OnInit {
     this.selectedPost.priority = this.selectedPrioryty.value;
   }
 
-  preDeletingFile(postId : string , fileId : string){
+  preDeletingFile(postId: string, fileId: string) {
     this.isFileDelete = true;
     this.postIdToDeleteFile = postId;
     this.fileIdToDelete = fileId;
   }
 
-  cancelDeletingFile(){
+  cancelDeletingFile() {
     this.isFileDelete = false;
     this.postIdToDeleteFile = null;
     this.fileIdToDelete = null;
   }
 
-  deleteFile(){
-    this.postService.deleteFromPost(this.postIdToDeleteFile , this.fileIdToDelete).subscribe();
-    var post  = this.news.find( post => post.id === this.postIdToDeleteFile);
-    post.fileDBList = post.fileDBList.filter( file => file.id !== this.fileIdToDelete);
+  deleteFile() {
+    this.postService.deleteFromPost(this.postIdToDeleteFile, this.fileIdToDelete).subscribe();
+    var post = this.news.find(post => post.id === this.postIdToDeleteFile);
+    post.fileDBList = post.fileDBList.filter(file => file.id !== this.fileIdToDelete);
     this.isFileDelete = false;
     this.message.add({
       severity: 'warn',
@@ -196,12 +196,14 @@ export class PostComponent implements OnInit {
 
   }
 
-  uploadFile(event , postId: string , fileUpload){
-    var post = this.news.find( post => post.id === postId);
-    event.files.forEach( data => this.fileService.addFile(data)
-            .subscribe( response =>{
-              this.postService.attachToPost(postId , response.id)
-              .subscribe(); post.fileDBList.push(response)}))
+  uploadFile(event, postId: string, fileUpload) {
+    var post = this.news.find(post => post.id === postId);
+    event.files.forEach(data => this.fileService.addFile(data)
+    .subscribe(response => {
+      this.postService.attachToPost(postId, response.id)
+      .subscribe();
+      post.fileDBList.push(response)
+    }))
     fileUpload.clear();
     this.message.add({
       severity: 'success',

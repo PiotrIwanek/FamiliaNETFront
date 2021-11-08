@@ -10,42 +10,43 @@
 }
 
 .logo {
- max-width: 15vw;
+  max-width: 15vw;
   margin-left: 1%;
   margin-top: 3%;
   margin-bottom: 1%;
 }
 
-img{
+img {
   max-height: 100%;
   max-width: 100%;
 }
-.top{
+
+.top {
   min-height: auto;
 }
 
-.content{
+.content {
   margin-top: 5%;
   margin-bottom: 5%;
   min-height: 50%;
   height: available;
 }
 
-.body{
+.body {
   height: auto;
 }
 
-.phonenumbers{
+.phonenumbers {
   color: rgba(252, 55, 55, 1);
   font-weight: bold;
 }
 
-.footer{
+.footer {
   margin-top: auto;
   min-height: 200px;
   padding: 2%;
   color: white;
-  background:  rgba(0, 78, 148, 1)
+  background: rgba(0, 78, 148, 1)
 }
 
 

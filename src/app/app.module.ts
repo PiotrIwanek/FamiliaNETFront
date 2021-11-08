@@ -30,7 +30,7 @@ import {ChipModule} from 'primeng/chip';
 import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ListboxModule} from 'primeng/listbox';
-import { TagModule } from 'primeng/tag';
+import {TagModule} from 'primeng/tag';
 import {SplitButtonModule} from 'primeng/splitbutton';
 import {PanelMenuModule} from 'primeng/panelmenu';
 import {TableModule} from 'primeng/table';
@@ -45,39 +45,47 @@ import {TieredMenuModule} from "primeng/tieredmenu";
 import {priorityIconPipe, PriorityPipe} from "../pipes/priority.pipe";
 import {LoginService} from "../services/login.service";
 import {UserService} from "../services/user.service";
-import { HomeComponent } from './home/home.component';
-import { AcreditationComponent } from './acreditation/acreditation.component';
-import { ChartComponent } from './chart/chart.component';
-import { PriceListComponent } from './price-list/price-list.component';
+import {HomeComponent} from './home/home.component';
+import {AcreditationComponent} from './acreditation/acreditation.component';
+import {ChartComponent} from './chart/chart.component';
+import {PriceListComponent} from './price-list/price-list.component';
 import {OfficesComponent} from "./offices/offices.component";
-import { AddPostComponent } from './admin-panel/add-post/add-post.component';
-import { AddCategoryComponent } from './admin-panel/add-category/add-category.component';
-import { AddUserComponent } from './admin-panel/add-user/add-user.component';
-import { AddChartFileComponent } from './admin-panel/add-chart-file/add-chart-file.component';
-import { ErrorNotFoundComponent } from './error-not-found/error-not-found.component';
+import {AddPostComponent} from './admin-panel/add-post/add-post.component';
+import {AddCategoryComponent} from './admin-panel/add-category/add-category.component';
+import {AddUserComponent} from './admin-panel/add-user/add-user.component';
+import {AddChartFileComponent} from './admin-panel/add-chart-file/add-chart-file.component';
+import {ErrorNotFoundComponent} from './error-not-found/error-not-found.component';
 import {InputNumberModule} from "primeng/inputnumber";
-import { NewsComponent } from './news/news.component';
-
-
+import {NewsComponent} from './news/news.component';
+import {AddUnitComponent} from './admin-panel/add-unit/add-unit.component';
+import {UnitService} from "../services/unit.service";
+import {InputTextModule} from "primeng/inputtext";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {PasswordPipe} from "../pipes/password.pipe";
 
 
 const routes: Routes = [
-  {path: 'home' , component: HomeComponent},
-  {path: 'news' , component: NewsComponent},
-  {path: 'admin', component: AdminPanelComponent , children: [
+  {path: 'home', component: HomeComponent},
+  {path: 'news', component: NewsComponent},
+  {
+    path: 'admin', component: AdminPanelComponent, children: [
       {path: 'addUser', component: AddUserComponent},
       {path: 'addPost', component: AddPostComponent},
       {path: 'addCategory', component: AddCategoryComponent},
-      {path: 'addChartFile', component: AddChartFileComponent}
-    ]},
-  {path: 'acreditation' , component: AcreditationComponent, children: [
+      {path: 'addChartFile', component: AddChartFileComponent},
+      {path: 'addUnit', component: AddUnitComponent}
+    ]
+  },
+  {
+    path: 'acreditation', component: AcreditationComponent, children: [
       {path: 'post', component: PostComponent}
-    ]},
-  {path: 'chart' , component: ChartComponent},
-  {path: 'priceList' , component: PriceListComponent},
-  {path: 'offices' , component: OfficesComponent},
-  {path: 'error' , component: ErrorNotFoundComponent},
-  {path: '**' , redirectTo: 'home' , pathMatch: 'full'}
+    ]
+  },
+  {path: 'chart', component: ChartComponent},
+  {path: 'priceList', component: PriceListComponent},
+  {path: 'offices', component: OfficesComponent},
+  {path: 'error', component: ErrorNotFoundComponent},
+  {path: '**', redirectTo: 'home', pathMatch: 'full'}
 
 ];
 
@@ -101,7 +109,9 @@ const routes: Routes = [
     AddUserComponent,
     AddChartFileComponent,
     ErrorNotFoundComponent,
-    NewsComponent
+    NewsComponent,
+    AddUnitComponent,
+    PasswordPipe
   ],
   imports: [
     BrowserModule,
@@ -136,12 +146,15 @@ const routes: Routes = [
     SplitButtonModule,
     PanelMenuModule,
     TableModule,
-    InputNumberModule
+    InputNumberModule,
+    InputTextModule,
+    InputSwitchModule
   ],
 
   exports: [RouterModule],
-  providers: [MessageService, PostService , LoginService , UserService],
+  providers: [MessageService, PostService, LoginService, UserService, UnitService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule {
 }

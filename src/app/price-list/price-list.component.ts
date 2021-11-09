@@ -51,11 +51,11 @@ export class PriceListComponent implements OnInit {
     this.addRecordDialog = true
   }
 
-  addRecord(name: string, description: string, price: number) {
+  addRecord() {
 
     if (this.addForm.valid) {
       try {
-        this.priceRecordService.add(new PriceRecord(name, description, price)).subscribe(data => this.priceRecords.push(data))
+        this.priceRecordService.add(new PriceRecord(this.name.value, this.description.value, this.price.value)).subscribe(data => this.priceRecords.push(data))
         this.messageService.add({
           severity: "success",
           summary: "Dodano pozycję",

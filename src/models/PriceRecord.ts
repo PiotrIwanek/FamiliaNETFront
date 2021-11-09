@@ -1,47 +1,44 @@
 export class PriceRecord {
 
-  private _id: number;
-  private _name: string;
-  private _description: string;
-  private _price: number;
+   id: number;
+   name: string;
+  description: string;
+  price: number;
 
   constructor(name: string, description: string, price: number) {
 
-    this._name = name;
-    this._description = description;
-    this._price = price;
+    this.name = name;
+    this.description = description;
+    this.price = price;
   }
 
 
-  get id(): number {
-    return this._id;
+  get getId(): number {
+    return this.id;
   }
 
-  set id(value: number) {
-    this._id = value;
+
+  get getName(): string {
+    return this.name;
   }
 
-  get name(): string {
-    return this._name;
+  set setName(value: string) {
+    this.name = value;
   }
 
-  set name(value: string) {
-    this._name = value;
+  get getDescription(): string {
+    return this.description;
   }
 
-  get description(): string {
-    return this._description;
+  set setDescription(value: string) {
+    this.description = value;
   }
 
-  set description(value: string) {
-    this._description = value;
+  get getPrice(): number {
+    return this.price;
   }
 
-  get price(): number {
-    return this._price;
-  }
-
-  set price(value: number) {
-    this._price = value;
+  set setPrice(value: number) {
+    this.price = value;
   }
 }

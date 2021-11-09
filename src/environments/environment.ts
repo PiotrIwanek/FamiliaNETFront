@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URL: "http://10.10.8.253:4200/api/v1/",
+  URL: "http://localhost:4200/api/v1/",
   // SpringServerIP: "http://10.10.8.253:8090/"
 };
 

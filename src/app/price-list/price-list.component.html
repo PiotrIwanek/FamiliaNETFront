@@ -56,23 +56,24 @@
       <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Nazwa </span> <input pInputText
                                                                                                      class="p-inputtext"
                                                                                                      formControlName="name"
-                                                                                                     type="text" #name
+                                                                                                     type="text"
                                                                                                      required></div>
+
       <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Opis </span> <input pInputText
                                                                                                     formControlName="description"
                                                                                                     class="p-inputtext"
                                                                                                     type="text"
-                                                                                                    #description
+
                                                                                                     required></div>
       <div class="p-d-flex p-flex-row p-mb-3"><span class="p-inputgroup-addon"> Cena </span>
-        <p-inputNumber formControlName="price" mode="currency" currency="PLN" locale="pl-PL" #price
+        <p-inputNumber formControlName="price" mode="currency" currency="PLN" locale="pl-PL"
                        required></p-inputNumber>
       </div>
       <div *ngIf="!addForm.valid" style="color: darkred"> Uzupełnij dane</div>
       <p></p>
       <div>
         <button pButton class="p-button-rounded p-button-success"
-                (click)="addRecord(name.value ,description.value ,price.value)">Dodaj
+                (click)="addRecord()" #addButton>Dodaj
         </button>
       </div>
     </div>

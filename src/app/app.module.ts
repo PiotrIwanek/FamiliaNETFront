@@ -10,6 +10,11 @@ import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 
+import {FullCalendarModule} from '@fullcalendar/angular';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+
+
 import {MenubarModule} from 'primeng/menubar';
 import {FieldsetModule} from 'primeng/fieldset';
 import {TabViewModule} from 'primeng/tabview';
@@ -62,6 +67,11 @@ import {UnitService} from "../services/unit.service";
 import {InputTextModule} from "primeng/inputtext";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {PasswordPipe} from "../pipes/password.pipe";
+import {EventService} from "../services/event.service";
+import { AddEventComponent } from './admin-panel/add-event/add-event.component';
+import {CalendarModule} from "primeng/calendar";
+import {ColorPickerModule} from "primeng/colorpicker";
+
 
 
 const routes: Routes = [
@@ -73,7 +83,8 @@ const routes: Routes = [
       {path: 'addPost', component: AddPostComponent},
       {path: 'addCategory', component: AddCategoryComponent},
       {path: 'addChartFile', component: AddChartFileComponent},
-      {path: 'addUnit', component: AddUnitComponent}
+      {path: 'addUnit', component: AddUnitComponent},
+      {path: 'addEvent', component: AddEventComponent}
     ]
   },
   {
@@ -89,6 +100,10 @@ const routes: Routes = [
 
 ];
 
+FullCalendarModule.registerPlugins([
+  dayGridPlugin,
+  interactionPlugin
+]);
 
 @NgModule({
   declarations: [
@@ -111,7 +126,8 @@ const routes: Routes = [
     ErrorNotFoundComponent,
     NewsComponent,
     AddUnitComponent,
-    PasswordPipe
+    PasswordPipe,
+    AddEventComponent
   ],
   imports: [
     BrowserModule,
@@ -148,11 +164,14 @@ const routes: Routes = [
     TableModule,
     InputNumberModule,
     InputTextModule,
-    InputSwitchModule
+    InputSwitchModule,
+    FullCalendarModule,
+    CalendarModule,
+    ColorPickerModule,
   ],
 
   exports: [RouterModule],
-  providers: [MessageService, PostService, LoginService, UserService, UnitService],
+  providers: [MessageService, PostService, LoginService, UserService, UnitService , EventService],
   bootstrap: [AppComponent]
 })
 

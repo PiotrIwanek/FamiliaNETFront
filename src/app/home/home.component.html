@@ -24,7 +24,9 @@
   </div>
   <div>
     <div class="grey_title">Kalendarz</div>
-    <div class="grey_calendar"></div>
+    <div class="grey_calendar p-p-5">
+      <full-calendar [options]="calendarOptions" [style]="{ width: '30vw' } " #calendar></full-calendar>
+    </div>
   </div>
   <div>
     <div class="grey_title">Aktualności</div>
@@ -40,3 +42,20 @@
     </div>
   </div>
 </div>
+
+<p-dialog header="{{selectedEvent.title}}" [(visible)]="d1Visible" (onHide)="clear()" [responsive]="true"
+          [maximizable]="true" [style]="{width: '50vw' , height:'auto'}" appendTo="body" position="top right" #d1>
+  <div class="p-d-flex p-flex-column">
+    <div class=" p-d-flex p-flex-row">
+      <div class="p-d-flex p-flex-column">
+      <div class="p-m-2"><b>Data :</b> {{selectedEvent.start | date : 'dd-MM-YYYY hh:mm'}}</div>
+      <div class="p-m-2"><b>Adresat :</b> {{selectedEvent.extendedProps.recipient}}</div>
+    </div>
+    <div [style]="{backgroundColor : selectedEvent.backgroundColor}" class="circle-place"></div>
+  </div>
+  <div class="p-m-2">
+    <hr>
+    <div [innerHTML]="selectedEvent.extendedProps.main"></div>
+  </div>
+  </div>
+</p-dialog>

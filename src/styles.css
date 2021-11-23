@@ -45,5 +45,12 @@ img {
   background: rgba(0, 78, 148, 1) !important;
 }
 
+.circle-place{
+  border-radius: 25px;
+  width: 2vw;
+  height: 2vw;
+  margin-left: auto;
+}
+
 
 

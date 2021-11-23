@@ -30,6 +30,7 @@ export class AdminPanelComponent implements OnInit {
       {label: 'Użytkownicy', icon: 'pi pi-user', routerLink: 'addUser'},
       {label: 'Grafik', icon: 'pi pi-calendar', routerLink: 'addChartFile'},
       {label: 'Placówki', icon: 'pi pi-globe', routerLink: 'addUnit'},
+      {label: 'Wydarzenia', icon: 'pi pi-calendar-plus', routerLink: 'addEvent'}
     ]
 
   }
